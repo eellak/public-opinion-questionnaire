@@ -1,6 +1,6 @@
 <?php
 /* Install plugin tables */
-function ellak_poq_install () {
+function ellak_poq_db_install () {
 	global $wpdb;
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -45,4 +45,4 @@ function ellak_poq_install () {
 }
 
 /* Register the hook functions */
-add_action( 'plugins_loaded', 'ellak_poq_install' );
+add_action( 'plugins_loaded', 'ellak_poq_db_install' );
