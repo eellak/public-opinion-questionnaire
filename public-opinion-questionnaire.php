@@ -49,12 +49,25 @@ function ellak_poq_style() {
 }
 add_action( 'wp_enqueue_scripts', 'ellak_poq_style' );
 
-/* register the filter that displays the page to the user */
+/* register the filters that display the page to the user */
+$ellakPoqContent = '';
+function ellak_poq_create_content() {
+    global $ellakPoqContent;
+    $the_page_name = get_option( "ellak_poq_page_name" );
+    if ( is_page( $the_page_name ) ) {
+        require_once('ellak_poq_controller.php');
+        $controller = new EllakPoQController();
+        $ellakPoqContent = $controller->routeRequest();
+    }
+}
+add_action( 'wp', 'ellak_poq_create_content' );
+
 function ellak_poq_page_filter( $content ) {
-   $the_page_name = get_option( "ellak_poq_page_name" );
-   if ( is_page( $the_page_name ) ) {
-      $content = require_once('views/ellak_poq_question.php');
-   }
-   return $content;
+    global $ellakPoqContent;
+    $the_page_name = get_option( "ellak_poq_page_name" );
+    if ( is_page( $the_page_name ) ) {
+        $content = $ellakPoqContent;
+    }
+    return $content;
 }
 add_filter( 'the_content', 'ellak_poq_page_filter' );
