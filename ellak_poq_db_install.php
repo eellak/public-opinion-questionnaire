@@ -4,7 +4,7 @@ function ellak_poq_db_install () {
 	global $wpdb;
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	$ellak_poq_db_version = '0.0.5';
+	$ellak_poq_db_version = '0.0.6';
     $installed_ver = get_option( "ellak_poq_db_version" );
 
     if ( $installed_ver != $ellak_poq_db_version ) {
@@ -34,6 +34,7 @@ function ellak_poq_db_install () {
         $sql = "CREATE TABLE $user_answers_table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+            session_id varchar(128) NOT NULL,
             user_id mediumint(9) NOT NULL,
             answer_id mediumint(9) NOT NULL,
             UNIQUE KEY id (id)

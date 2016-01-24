@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block ellak_poq_main_content %}
+        <div class="pure-u-1-2">
+            <div class="ellak-poq-answer-container"></div>
+        </div>
+        <div class="pure-u-1-2">
+            <div style="text-align: right; padding-top:5px;">
+                <a href="{{add_query_arg( 'page', get_query_var('page', 1)+1 )}}" class="ellak-poq-next-btn">Next</a>
+                <BR />
+                <BR />
+                <BR />
+                <BR />
+                <BR />
+            </div>
+            <div class="ellak-poq-answer-similar">
+                <h2>27.3% απάντησαν όπως εσείς</h2>
+                <h3>&nbsp;&nbsp;34.8% των αγροτών</h3>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;31.4% όσων έχουν εισόδημα κάτω από 500 ευρώ</h3>
+                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;13.4% των συνταξιούχων</h3>
+                <h3>&nbsp;&nbsp;12.7% των ηλικίας άνω των 65</h3>
+            </div>
+        </div>
+{% endblock %}
+{% block ellak_poq_scripts %}
+<script>
+jQuery(function () {
+    jQuery('.ellak-poq-answer-container').height(50+{{answers|length}}*50);
+    jQuery('.ellak-poq-answer-container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: '{{page}}. {{question.question}}',
+            align: 'left'
+        },
+        xAxis: {
+            visible: true,
+            lineWidth: 0,
+            minorGridLineWidth: 0,
+            lineColor: 'transparent',
+            minorTickLength: 0,
+            tickLength: 0,
+            categories: [{% for answer in answers %}'{{answer.answer}}'{% if not loop.last %},{% endif %}{% endfor %}],
+            labels: {
+                align:'left',
+                x:5,
+                style: {
+                    fontSize: '1em',
+                    color:'#fff'
+                }
+            }
+        },
+        yAxis: {
+            visible: false
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true,
+                    crop: false,
+                    overflow: 'none'
+                }
+            }
+        },
+        series: [
+        {
+            showInLegend: false,
+            name: "{{page}}. {{question.question}}",
+            data: [
+            {% for answer in answers %}
+            {y: 100, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
+            {% endfor %}
+            ]
+        }
+        ]
+    });
+});
+</script>
+{% endblock %}

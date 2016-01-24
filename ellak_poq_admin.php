@@ -14,5 +14,6 @@ function ellak_poq_admin_options()
       wp_die( __('You do not have sufficient permissions to access this page.') );
     }
     
-    require_once('views/ellak_poq_admin_options_view.php');
+    $data = Timber::get_context();
+    Timber::render('views/ellak_poq_admin_options_view.html.twig', $data);
 }
