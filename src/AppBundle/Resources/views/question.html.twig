@@ -1,18 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::base.html.twig' %}
 
-{% block ellak_poq_main_content %}
+{% block content %}
 <div class="pure-u-1-2">
     <form name="form1" method="post" action="">
         <div>{{question.question}}</div>
         <hr />
-        {% for answer in answers %}
+        {% for answer in question.answers %}
             <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}"> <label for="answer-{{answer.id}}">{{answer.answer}}</label></div>
         {% endfor %}
         <div>
         <br />
         <div><input type="submit" value="Next" /></div>
         {% if hasPrevious %}
-            <div><a href="{{add_query_arg( 'page', get_query_var('page', 1)-1 )}}">Previous question</a></div>
+            <div><a href="{{path('question', {'page': page-1})}}">Previous question</a></div>
         {% endif %}
         </div>
     </form>

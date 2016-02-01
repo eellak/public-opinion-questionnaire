@@ -1,0 +1,8 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="pure-u-1-1">
+    This is the index page<BR />
+    <a href="{{path('question', {'page': 1})}}">Start questionnaire</a>
+</div>
+{% endblock %}

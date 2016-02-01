@@ -1,12 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::base.html.twig' %}
 
-{% block ellak_poq_main_content %}
+{% block content %}
         <div class="pure-u-1-2">
             <div class="ellak-poq-answer-container"></div>
         </div>
         <div class="pure-u-1-2">
             <div style="text-align: right; padding-top:5px;">
-                <a href="{{add_query_arg( 'page', get_query_var('page', 1)+1 )}}" class="ellak-poq-next-btn">Next</a>
+                <a href="{{path('question', {'page': page+1})}}" class="ellak-poq-next-btn">Next</a>
                 <BR />
                 <BR />
                 <BR />
@@ -23,10 +23,12 @@
             </div>
         </div>
 {% endblock %}
-{% block ellak_poq_scripts %}
+{% block javascripts %}
+{{parent()}}
+<script src="//code.highcharts.com/highcharts.js"></script>
 <script>
 jQuery(function () {
-    jQuery('.ellak-poq-answer-container').height(50+{{answers|length}}*50);
+    jQuery('.ellak-poq-answer-container').height(50+{{question.answers|length}}*50);
     jQuery('.ellak-poq-answer-container').highcharts({
         chart: {
             type: 'bar'
@@ -42,7 +44,7 @@ jQuery(function () {
             lineColor: 'transparent',
             minorTickLength: 0,
             tickLength: 0,
-            categories: [{% for answer in answers %}'{{answer.answer}}'{% if not loop.last %},{% endif %}{% endfor %}],
+            categories: [{% for answer in question.answers %}'{{answer.answer}}'{% if not loop.last %},{% endif %}{% endfor %}],
             labels: {
                 align:'left',
                 x:5,
@@ -72,7 +74,7 @@ jQuery(function () {
             showInLegend: false,
             name: "{{page}}. {{question.question}}",
             data: [
-            {% for answer in answers %}
+            {% for answer in question.answers %}
             {y: 100, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
             {% endfor %}
             ]
