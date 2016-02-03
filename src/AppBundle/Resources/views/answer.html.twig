@@ -1,27 +1,27 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
-        <div class="pure-u-1-2">
-            <div class="ellak-poq-answer-container"></div>
-        </div>
-        <div class="pure-u-1-2">
-            <div style="text-align: right; padding-top:5px;">
-                <a href="{{path('question', {'page': page+1})}}" class="ellak-poq-next-btn">Next</a>
-                <BR />
-                <BR />
-                <BR />
-                <BR />
-                <BR />
-            </div>
-            <div class="ellak-poq-answer-similar">
-                <h2>27.3% απάντησαν όπως εσείς</h2>
-                <h3>&nbsp;&nbsp;34.8% των αγροτών</h3>
-                <h3>&nbsp;&nbsp;&nbsp;&nbsp;31.4% όσων έχουν εισόδημα κάτω από 500 ευρώ</h3>
-                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
-                <h3>&nbsp;&nbsp;&nbsp;&nbsp;13.4% των συνταξιούχων</h3>
-                <h3>&nbsp;&nbsp;12.7% των ηλικίας άνω των 65</h3>
-            </div>
-        </div>
+<div class="col-md-6">
+    <div class="ellak-poq-answer-container"></div>
+</div>
+<div class="col-md-6">
+    <div style="text-align: right; padding-top:5px;">
+        <a href="{{path('question', {'page': page+1})}}" class="btn btn-poq">Next</a>
+        <BR />
+        <BR />
+        <BR />
+        <BR />
+        <BR />
+    </div>
+    <div class="ellak-poq-answer-similar">
+        <h2>27.3% απάντησαν όπως εσείς</h2>
+        <h3>&nbsp;&nbsp;34.8% των αγροτών</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;31.4% όσων έχουν εισόδημα κάτω από 500 ευρώ</h3>
+        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;13.4% των συνταξιούχων</h3>
+        <h3>&nbsp;&nbsp;12.7% των ηλικίας άνω των 65</h3>
+    </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 {{parent()}}

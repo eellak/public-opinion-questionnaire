@@ -7,25 +7,28 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
         <link rel="stylesheet" href="{{asset('css/poq.css')}}">
+
+        <title>Public Opinion Questionnaire</title>
     </head>
     <body>
-        <div class="row">
-            <div class="col-md-offset-2 col-md-8">
-                <div class="ellak-poq">
-                    <div class="ellak-poq-head-row">
-                        <div class="ellak-poq-head-text">τι πιστεύουν οι Έλληνες - μια έρευνα</div>
-                        <div class="ellak-poq-head-text">
-                        {% if page > 0 and page < questionCount %}
-                            {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..questionCount %}&#9702;{% endfor %}
-                        {% elseif page >= questionCount %}
-                            {% for i in 1..questionCount %}&#8226;{% endfor %}
-                        {% else %}
-                            {% for i in 1..questionCount %}&#9702;{% endfor %}
-                        {% endif %}
-                        </div>
+        <div class="center-block poq-main">
+            <div class="ellak-poq">
+                <div class="ellak-poq-head-row">
+                    <div class="ellak-poq-head-text">τι πιστεύουν οι Έλληνες - μια έρευνα</div>
+                    <div class="ellak-poq-head-text">
+                    {% if page > 0 and page < questionCount %}
+                        {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..questionCount %}&#9702;{% endfor %}
+                    {% elseif page >= questionCount %}
+                        {% for i in 1..questionCount %}&#8226;{% endfor %}
+                    {% else %}
+                        {% for i in 1..questionCount %}&#9702;{% endfor %}
+                    {% endif %}
                     </div>
-                    <div class="ellak-poq-main-content pure-g">
-                        {% block content %}{% endblock %}
+                </div>
+
+                <div class="container-fluid">
+                    <div class="ellak-poq-main-content row">
+                    {% block content %}{% endblock %}
                     </div>
                 </div>
             </div>
