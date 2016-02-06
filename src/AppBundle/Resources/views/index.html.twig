@@ -1,12 +1,33 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
-<div class="text-center">
-    <p>Lorem weirwood ever vigilant amet, the wall slay, fire the last of the dragons pavilion court m'lady old bear. Ut enim manhood throne veniam, quis nostrud exercitation ullamco sandsilk poison is a woman's weapon commodo others. Tourney aute irure dolor in reprehenderit in voluptate suckling pig cillum dolore eu fugiat nulla pariatur. Blood sint occaecat cupidatat non proident, brother in culpa qui officia as high as honor est smallfolk.</p>
+<div class="row text-center">
+    <div class="col-md-6">
+        <p><img class="poq-logo" src="http://placehold.it/150x150" /></p>
+        <p>Lorem weirwood ever vigilant amet, the wall slay, fire the last of the dragons pavilion court m'lady old bear. Ut enim manhood throne veniam, quis nostrud exercitation ullamco sandsilk poison is a woman's weapon commodo others. Tourney aute irure dolor in reprehenderit in voluptate suckling pig cillum dolore eu fugiat nulla pariatur. Blood sint occaecat cupidatat non proident, brother in culpa qui officia as high as honor est smallfolk.</p>
+    </div>
+    <div class="col-md-6 border-l">
+        <div style="height: 220px; display: table; width: 100%;">
+            <div style="display: table-cell; vertical-align: middle;">
+                <a href="{{path('question', {'page': 1})}}" class="btn btn-primary btn-xlarge">Έναρξη</a>
+            </div>
+        </div>
+        <div style="height: 200px; display: table; width: 100%;">
+            <div style="display: table-cell; vertical-align: top;">
+                Αν έχεις αποθηκεύσει το ερωτηματολόγιο συνέχισε εδώ<BR /><BR />
+                <a href="{{path('question', {'page': 1})}}" class="btn btn-default btn-lg">Συνέχιση</a>
+            </div>
+        </div>
+        <div class="bottom-align-text">
+            <small>* η συμμετοχή στο ερωτηματολόγιο είναι ανώνυμη - η υπηρεσία δεν αποθηκεύει κανένα προσωπικό στοιχείο</small>
+        </div>
+    </div>
+</div>
+
+{#<div class="text-center">
 
 <p>Royal pretium tincidunt lacus. A taste of glory king. Moon-flower juice, honeyed locusts the seven, m'lord eros never resting, nec warg magna felis night's watch. Green dreams prince eu nibh euismod gravida. Duis ac maid mare's milk vulputate vehicula. Donec sister bloody mummers ward. Spiced wine. Arbor gold, maidenhead old bear slay, eros est euismod dragons, gallant tincidunt seven hells a quam. We light the way. Donec fermentum. Pellentesque tread lightly here throne. Bastard moon-flower juice, lance garron, commodo smallfolk, the wall, neque. Aliquam ser, your grace merchant aliquet, squire nisl adipiscing brother, sed malesuada work her will holdfast. Night's watch death mace. Your grace. Arakh consequat. None so fierce, dapibus quis, suckling pig, pretium blood, nisi. Warg realm dungeon, ever vigilant, honeyed locusts, green dreams, fool. Spare me your false courtesy.</p>
     <hr />
-    <p><a href="{{path('question', {'page': 1})}}" class="btn btn-primary btn-xlarge">Έναρξη</a></p>
-    <p><a href="{{path('question', {'page': 1})}}" class="btn btn-default btn-bg">Συνέχιση</a></p>
-</div>
+
+</div>#}
 {% endblock %}

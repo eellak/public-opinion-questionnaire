@@ -82,6 +82,27 @@ body {
     border-bottom:30px solid transparent;
 }
 
+/* Home page */
+@media (min-width: 768px ) {
+  .row {
+      position: relative;
+  }
+
+  .bottom-align-text {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.poq-logo {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.border-l {
+    border-left: 1px #000 solid;
+}
+
 /* Similar answers */
 .ellak-poq-main-content.ellak-poq-answer-similar h1,
 .ellak-poq-main-content .ellak-poq-answer-similar h2,
