@@ -104,7 +104,7 @@ class DefaultController extends Controller
                     ->setTo($request->get('email'))
                     ->setBody('Για να συνεχίσεις το ερωτηματολόγιο επισκέψου τον σύνδεσμο '.$this->container->get('router')->generate('resume', array(
                         'email' => $request->get('email'),
-                    )), 'text/html')
+                    ), true), 'text/html')
                 ;
                 $this->get('mailer')->send($message);
                 $this->container->get('doctrine')->getManager()->persist($user);
