@@ -34,10 +34,7 @@ class DefaultController extends Controller
             if(!$answer || $answer->getQuestion() != $question) {
                 throw new \Exception('Invalid answer selected: '.$request->get('answer'));
             }
-            $userAnswer = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\UserAnswer')->findOneBy(array(
-                'user' => $user,
-                'answer' => $answer,
-            ));
+            $userAnswer = $this->container->get('doctrine')->getManager()->createQuery('SELECT ua FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE ua.user = :user AND a.question = :question')->setParameter('user', $user)->setParameter('question', $question)->getOneOrNullResult();
             if(!$userAnswer) {
                 $userAnswer = new UserAnswer();
             }
@@ -62,12 +59,29 @@ class DefaultController extends Controller
     public function answerAction($page, Request $request) {
         $question = $this->getQuestion($page);
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
-        $answer = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\UserAnswer HIDDEN ua JOIN ua.answer a WHERE a.question = :question and ua.user = :user')->setParameter('user', $user)->setParameter('question', $question);
+        $answer = $this->container->get('doctrine')->getManager()->createQuery('SELECT ua FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE a.question = :question and ua.user = :user')->setParameter('user', $user)->setParameter('question', $question)->getResult();
         if(count($answer) <= 0) { throw new \Exception('Answer not found!'); }
         $answer = reset($answer);
+        $answer = $answer->getAnswer();
+        // Process answer stats
+        $answerStats = $this->container->get('app.answer.manager')->getAnswerStatsFlattenedSorted($answer);
+        $answerStatsProcessed = array();
+        for($i = 0; $i <= 1; $i++) {
+            $value = reset($answerStats);
+            $key = key($answerStats);
+            unset($answerStats[$key]);
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+        }
+        for($i = 0; $i <= 1; $i++) {
+            $value = end($answerStats);
+            $key = key($answerStats);
+            unset($answerStats[$key]);
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+        }
         return $this->render('AppBundle::answer.html.twig', array(
             'question' => $question,
-            'answer' => $question,
+            'answer' => $answer,
+            'answerStatsProcessed' => $answerStatsProcessed,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
             'questionCount' => 63,

@@ -35,7 +35,7 @@ class UserAnswer
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Answer", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Answer", inversedBy="userAnswers", fetch="EAGER")
      * @ORM\JoinColumn(name="answer_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $answer;

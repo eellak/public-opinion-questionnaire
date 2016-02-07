@@ -34,27 +34,47 @@ class Answer
      */
     private $answer;
 
-    function getId() {
+     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserAnswer", mappedBy="answer")
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    private $userAnswers;
+
+    public function getId() {
         return $this->id;
     }
 
-    function getQuestion() {
+    public function getQuestion() {
         return $this->question;
     }
 
-    function getAnswer() {
+    public function getAnswer() {
         return $this->answer;
     }
 
-    function setId($id) {
+    public function getUserAnswers() {
+        return $this->userAnswers;
+    }
+
+    function getAnswerPercentage() {
+        $answers = $this->userAnswers->count();
+        $totalAnswers = $this->question->getUserAnswersCount();
+        return round($answers/$totalAnswers*100, 2);
+    }
+
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setQuestion($question) {
+    public function setQuestion($question) {
         $this->question = $question;
     }
 
-    function setAnswer($answer) {
+    public function setAnswer($answer) {
         $this->answer = $answer;
+    }
+
+    public function setUserAnswers($userAnswers) {
+        $this->userAnswers = $userAnswers;
     }
 }

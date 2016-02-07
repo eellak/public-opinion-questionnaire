@@ -46,6 +46,14 @@ class Question
         return $this->answers;
     }
 
+    function getUserAnswersCount() {
+        $count = 0;
+        foreach($this->answers as $curAnswer) {
+            $count = $count + $curAnswer->getUserAnswers()->count();
+        }
+        return $count;
+    }
+
     function setId($id) {
         $this->id = $id;
     }

@@ -204,4 +204,22 @@ class User
     function setPoliticalView($politicalView) {
         $this->politicalView = $politicalView;
     }
+
+    static function getDimensionsExpanded() {
+        $oClass = new \ReflectionClass(__CLASS__);
+        $constants = $oClass->getConstants();
+        $result = array();
+        foreach($constants as $key => $curConstant) {
+            if(strpos($key, 'GENDER') !== false) { $result['gender'][] = $curConstant; }
+            if(strpos($key, 'AGE') !== false) { $result['age'][] = $curConstant; }
+            if(strpos($key, 'EDUCATION') !== false) { $result['educationLevel'][] = $curConstant; }
+            if(strpos($key, 'INCOME') !== false) { $result['income'][] = $curConstant; }
+            if(strpos($key, 'PROFESSION') !== false) { $result['profession'][] = $curConstant; }
+            if(strpos($key, 'SOCIAL_CLASS') !== false) { $result['socialClass'][] = $curConstant; }
+            if(strpos($key, 'REGION') !== false) { $result['region'][] = $curConstant; }
+            if(strpos($key, 'URBANITY') !== false) { $result['urbanity'][] = $curConstant; }
+            if(strpos($key, 'POLITICAL_VIEW') !== false) { $result['politicalView'][] = $curConstant; }
+        }
+        return $result;
+    }
 }

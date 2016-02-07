@@ -13,3 +13,7 @@ services:
             - "@doctrine"
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+    app.answer.manager:
+        class: AppBundle\Manager\AnswerManager
+        arguments:
+            - "@doctrine"
