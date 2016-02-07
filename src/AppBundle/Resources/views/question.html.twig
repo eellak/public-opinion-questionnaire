@@ -1,21 +1,32 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
-<div class="col-md-6">
-    <form name="form1" method="post" action="">
-        <div>{{question.question}}</div>
-        <hr />
-        {% for answer in question.answers %}
-            <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}"> <label for="answer-{{answer.id}}">{{answer.answer}}</label></div>
-        {% endfor %}
-        <div>
-        <br />
-        <div><button type="submit" class="btn btn-poq">Next</button></div>
-        {% if hasPrevious %}
-            <div><a href="{{path('question', {'page': page-1})}}">Previous question</a></div>
-        {% endif %}
+<form name="form1" method="post" action="" style="margin: 0;">
+    <div class="col-md-6">
+            <div>{{question.question}}</div>
+            <hr />
+            {% for answer in question.answers %}
+                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}"> <label for="answer-{{answer.id}}">{{answer.answer}}</label></div>
+            {% endfor %}
+            <div>
+            {% if hasPrevious %}
+                <div><a href="{{path('question', {'page': page-1})}}">Previous question</a></div>
+            {% endif %}
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div style="text-align: right; padding-top:5px;">
+            <div><button type="submit" class="btn btn-poq">Next</button></div>
         </div>
-    </form>
+    </div>
+</form>
+{{block('bottomcontent')}}
+{% endblock %}
+
+{% block bottomcontent %}
+<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
+    <hr style="margin-top: 10px; margin-bottom: 10px;" />
+    <a href="#">Αν επιθυμείς να διακόψεις προσωρινά το ερωτηματόλογιο πάτησε εδώ.</a>
 </div>
-<div class="col-md-6"></div>
 {% endblock %}

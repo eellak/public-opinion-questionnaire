@@ -1,4 +1,4 @@
-{% extends 'AppBundle::base.html.twig' %}
+{% extends 'AppBundle::question.html.twig' %}
 
 {% block content %}
 <div class="col-md-6">
@@ -22,6 +22,7 @@
         <h3>&nbsp;&nbsp;{{answerStatsProcessed[1].value}}% {{answerStatsProcessed[1].label|trans}}</h3>
     </div>
 </div>
+{{block('bottomcontent')}}
 {% endblock %}
 {% block javascripts %}
 {{parent()}}

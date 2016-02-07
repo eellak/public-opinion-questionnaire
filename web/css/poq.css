@@ -82,6 +82,11 @@ body {
     border-bottom:30px solid transparent;
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
 /* Home page */
 @media (min-width: 768px ) {
   .row {
