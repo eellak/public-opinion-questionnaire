@@ -1,0 +1,97 @@
+gender:
+    MALE:
+        percentage: των αντρών
+    FEMALE:
+        percentage: των γυναικών
+age:
+    18_24:
+        percentage: των ατόμων ηλικίας 18 έως 24
+    25_39:
+        percentage: των ατόμων ηλικίας 25 έως 39
+    40-54:
+        percentage: των ατόμων ηλικίας 40 έως 54
+    55-64:
+        percentage: των ατόμων ηλικίας 55 έως 64
+    65+:
+        percentage: των ατόμων ηλικίας άνω των 65
+educationLevel:
+    PRIMARY:
+        percentage: όσων έχουν ολοκληρώσει πρωτοβάθμια εκπαίδευση
+    SECONDARY:
+        percentage: όσων έχουν ολοκληρώσει δευτεροβάθμια εκπαίδευση
+    TERTIARY:
+        percentage: όσων έχουν ολοκληρώσει τριτοβάθμια εκπαίδευση
+    MASTER:
+        percentage: όσων κατέχουν μεταπτυχιακό/διδακτορικό
+income:
+    500-:
+        percentage: όσων έχουν εισόδημα κάτω από 500€
+    501_1000:
+        percentage: όσων έχουν εισόδημα από 500€ έως 1000€
+    1001_1500:
+        percentage: όσων έχουν εισόδημα από 1000€ έως 1500€
+    1501_2000:
+        percentage: όσων έχουν εισόδημα από 1500€ έως 2000€
+    2001_3000:
+        percentage: όσων έχουν εισόδημα από 2000€ έως 3000€
+    3001+:
+        percentage: όσων έχουν εισόδημα πάνω από 3000€
+    UNKNOWN:
+        percentage: όσων δεν απάντησαν σχετικά με το εισόδημά τους
+profession:
+    CIVIL_SERVANT:
+        percentage: των δημοσίων υπαλλήλων
+    PRIVATE_EMPLOYEE:
+        percentage: των ιδιωτικών υπαλλήλων
+    FREELANCER_SCIENTIST:
+        percentage: των επιστημόνων ελεύθερων επαγγελματιών
+    FREELANCER_NON_SCIENTIST:
+        percentage: των μη-επιστημόνων ελεύθερων επαγγελματιών
+    ENTREPRENEUR:
+        percentage: των επιχειρηματιών
+    FARMER:
+        percentage: των αγροτών
+    STUDENT:
+        percentage: των μαθητών/φοιτητών
+    HOUSEWIFE:
+        percentage: των νοικοκυρών
+    RETIRED:
+        percentage: των συνταξιούχων
+    UNEMPLOYED:
+        percentage: των ανέργων
+socialClass:
+    LOWER:
+        percentage: όσων ανήκουν στην κατώτερη προς μεσαία κοινωνική τάξη
+    MIDDLE:
+        percentage: όσων ανήκουν στη μεσαία κοινωνική τάξη
+    UPPER:
+        percentage: όσων ανήκουν στην ανώτερη προς μεσαία κοινωνική τάξη
+region:
+    ATTICA:
+        percentage: των κατοίκων Αττικής
+    THESSALONIKI:
+        percentage: των κατοίκων Θεσσαλονίκης
+    CENTRAL_GREECE:
+        percentage: των κατοίκων Κεντρικής Ελλάδας
+    NORTH_AEGEAN:
+        percentage: των κατοίκων Βορείου Αιγαίου
+    CRETE:
+        percentage: των κατοίκων Κρήτης
+urbanity:
+    URBAN:
+        percentage: όσων ανήκουν στην αστική τάξη
+    RURAL:
+        percentage: όσων ανήκουν στην αγροτική τάξη
+politicalView:
+    LEFT:
+        percentage: με αριστερές πολιτικές πεποιθήσεις
+    CENTER_LEFT:
+        percentage: με κεντροαριστερές πολιτικές πεποιθήσεις
+    CENTER:
+        percentage: με κεντρώες πολιτικές πεποιθήσεις
+    CENTER_RIGHT:
+        percentage: με κεντροδεξιές πολιτικές πεποιθήσεις
+    RIGHT:
+        percentage: με δεξιές πολιτικές πεποιθήσεις
+    UNKNOWN:
+        percentage: όσων δεν δήλωσαν τις πολιτικές τους πεποιθήσεις

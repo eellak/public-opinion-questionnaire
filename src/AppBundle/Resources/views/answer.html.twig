@@ -14,12 +14,12 @@
         <BR />
     </div>
     <div class="ellak-poq-answer-similar">
-        <h2>27.3% απάντησαν όπως εσείς</h2>
-        <h3>&nbsp;&nbsp;34.8% των αγροτών</h3>
-        <h3>&nbsp;&nbsp;&nbsp;&nbsp;31.4% όσων έχουν εισόδημα κάτω από 500 ευρώ</h3>
+        <h2>{{answer.answerPercentage}}% απάντησαν όπως εσείς</h2>
+        <h3>&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}}</h3>
         <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
-        <h3>&nbsp;&nbsp;&nbsp;&nbsp;13.4% των συνταξιούχων</h3>
-        <h3>&nbsp;&nbsp;12.7% των ηλικίας άνω των 65</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;{{answerStatsProcessed[0].value}}% {{answerStatsProcessed[0].label|trans}}</h3>
+        <h3>&nbsp;&nbsp;{{answerStatsProcessed[1].value}}% {{answerStatsProcessed[1].label|trans}}</h3>
     </div>
 </div>
 {% endblock %}
@@ -75,7 +75,7 @@ jQuery(function () {
             name: "{{page}}. {{question.question}}",
             data: [
             {% for answer in question.answers %}
-            {y: 100, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
+            {y: {{answer.answerPercentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
             {% endfor %}
             ]
         }
