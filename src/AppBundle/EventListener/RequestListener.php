@@ -24,7 +24,7 @@ class RequestListener
 
         $event->getRequest()->getSession()->start();
         $user = $this->em->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $event->getRequest()->getSession()->getId()));
-        if(!$user) {
+        if(!$user && $event->getRequest()->get('_route') != 'resume') {
             // Create user
             $user = new User();
             $user->setSessionId($event->getRequest()->getSession()->getId());

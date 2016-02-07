@@ -88,7 +88,57 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @Route("/pause", name="pause")
+     */
+    public function pauseAction(Request $request) {
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
+        if($request->getMethod() == 'POST') {
+            $user->setEmail($request->get('email'));
+            $validator = $this->get('validator');
+            $errors = $validator->validate($user);
+            if (count($errors) <= 0) {
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Hello Email')
+                    ->setFrom('info@poq.ellak.gr')
+                    ->setTo($request->get('email'))
+                    ->setBody('Για να συνεχίσεις το ερωτηματολόγιο επισκέψου τον σύνδεσμο '.$this->container->get('router')->generate('resume', array(
+                        'email' => $request->get('email'),
+                    )), 'text/html')
+                ;
+                $this->get('mailer')->send($message);
+                $this->container->get('doctrine')->getManager()->persist($user);
+                $this->container->get('doctrine')->getManager()->flush($user);
+                return $this->render('AppBundle::pause_success.html.twig', array(
+                    'page' => 1,
+                    'questionCount' => 63,
+                    'email' => $request->get('email'),
+                ));
+            }
+        }
+        return $this->render('AppBundle::pause.html.twig', array(
+            'page' => 1,
+            'questionCount' => 63,
+        ));
+    }
+
+    /**
+     * @Route("/resume/{email}", name="resume")
+     */
+    public function resumeAction($email, Request $request) {
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('email' => $email));
+        if(!$user) { echo 'User not found to resume'; die(); }
+        $user->setSessionId($request->getSession()->getId());
+        $page = $this->container->get('doctrine')->getManager()->createQuery('SELECT COUNT(ua.id) FROM AppBundle\Entity\UserAnswer ua WHERE ua.user = :user')->setParameter('user', $user)->getSingleScalarResult();
+        $this->container->get('doctrine')->getManager()->persist($user);
+        $this->container->get('doctrine')->getManager()->flush($user);
+        return new RedirectResponse($this->container->get('router')->generate('question', array(
+            'page' => $page,
+        )));
+    }
+
     private function getQuestion($page) {
+        if($page < 1) { $page = 1; }
         $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q')->setMaxResults(1)->setFirstResult($page-1)->getResult();
         $question = reset($question);
         return $question;

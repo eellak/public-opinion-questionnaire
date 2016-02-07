@@ -1,0 +1,17 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-md-12">
+        <h3>Διακοπή ερωτηματολογίου</h3>
+        <p>Lorem weirwood ever vigilant amet, the wall slay, fire the last of the dragons pavilion court m'lady old bear. Ut enim manhood throne veniam, quis nostrud exercitation ullamco sandsilk poison is a woman's weapon commodo others. Tourney aute irure dolor in reprehenderit in voluptate suckling pig cillum dolore eu fugiat nulla pariatur. Blood sint occaecat cupidatat non proident, brother in culpa qui officia as high as honor est smallfolk.</p>
+        <form action="{{path('pause')}}" method="POST">
+            <div class="form-group">
+              <label for="pause-email">Email</label>
+              <input type="email" class="form-control" id="pause-email" name="email" placeholder="Email">
+            </div>
+            <button type="submit" class="btn btn-default">Διακοπή</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
