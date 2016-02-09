@@ -33,6 +33,11 @@ class Question
      * @ORM\OrderBy({"id" = "ASC"})
      */
     private $answers;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dataset", inversedBy="questions")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $dataset;
 
     function getId() {
         return $this->id;
@@ -54,6 +59,10 @@ class Question
         return $count;
     }
 
+    function getDataset() {
+        return $this->dataset;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -64,5 +73,9 @@ class Question
 
     function setAnswers($answers) {
         $this->answers = $answers;
+    }
+
+    function setDataset($dataset) {
+        $this->dataset = $dataset;
     }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>The following data has been uploaded:</h1>
+        <h2>Variables view</h2>
+        <table border="1" width="100%">
+                <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Width</th>
+                        <th>Decimals</th>
+                        <th>Label</th>
+                        <th>Values</th>
+                        <th>Missing values</th>
+                        <th>Align</th>
+                        <th>Columns</th>
+                        <th>Measure</th>
+                </tr>
+                {% for var in spss.variables if not var.isExtended %}
+                <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{% if spss.extendedNames[var.shortName] is defined %}{{spss.extendedNames[var.shortName]}}{% else %}{{var.name}}{% endif %}</td>
+                        <td>{{var.getPrintFormat|join(',')}} (#{{var.typeCode}})</td>
+                        <td>{{var.width}}</td>
+                        <td>{{var.decimals}}</td>
+                        <td>{{var.label|convert_encoding('UTF-8', 'iso-8859-7')}}</td>
+                        <td>
+                            {% for lkey,lval in var.valueLabels %}
+                                {{lkey|convert_encoding('UTF-8', 'iso-8859-7')}}) {{lval|convert_encoding('UTF-8', 'iso-8859-7')}} <br/>
+                            {% endfor %}
+                        </td>
+                        <td>{{var.missingLabel}}</td>
+                        <td>{{var.alignmentLabel}}</td>
+                        <td>{{var.columns}}</td>
+                        <td>{{var.measureLabel}}</td>
+                </tr>
+                {% endfor %}
+        </table>
+
+        {{spss.loadData()}}
+        <h2>Data view</h2>
+        <table border="1" width="100%">
+        <tr>
+                <th></th>
+                {% for var in spss.variables if not var.isExtended %}
+                <th>{{var.name}}</th>
+                {% endfor %}
+        </tr>
+        {% for case in 0..(spss.header.numberOfCases-1) %}
+            <tr>
+                <td>{{case+1}}</td>
+                {% for var in spss.variables if not var.isExtended %}
+                    <td align="{{var.alignmentLabel}}">{{var.data[case]}}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>

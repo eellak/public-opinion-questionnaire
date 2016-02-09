@@ -40,6 +40,12 @@ class UserAnswer
      */
     private $answer;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dataset", inversedBy="userAnswers")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $dataset;
+
     public function __construct() {
         $this->time = new \DateTime('now');
     }
@@ -60,6 +66,10 @@ class UserAnswer
         return $this->answer;
     }
 
+    function getDataset() {
+        return $this->dataset;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -74,5 +84,9 @@ class UserAnswer
 
     function setAnswer(Answer $answer) {
         $this->answer = $answer;
+    }
+
+    function setDataset($dataset) {
+        $this->dataset = $dataset;
     }
 }
