@@ -26,11 +26,12 @@ class BackendController extends Controller
         if($request->getMethod() == 'POST' && $request->files->get('fileToUpload') != null) {
             $SPSS = new \SPSSReader($request->files->get('fileToUpload')->getPathname());
             $dataset = new Dataset();
-            $dataset->setFilename($request->files->get('fileToUpload')->getPathname());
-            $profileDimensions = $this->setupProfileDimensions($SPSS);
-            $questions = $this->setupQuestions($SPSS);
+            $dataset->setFilename($request->files->get('fileToUpload')->getClientOriginalName());
+            //$profileDimensions = $this->setupProfileDimensions($SPSS);
+            //$questions = $this->setupQuestions($SPSS);
 
             return $this->render('AppBundle:Backend:import_results.html.twig', array(
+                'filename' => $dataset->getFilename(),
                 'spss' => $SPSS,
             ));
         }
