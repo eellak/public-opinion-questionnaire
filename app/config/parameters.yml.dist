@@ -5,12 +5,12 @@ parameters:
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     poq_ellak_gr
-    database_user:     root
-    database_password: ~
+    database_user:     poq_user
+    database_password: p0qp4ss
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
-    mailer_transport:  smtp
+    mailer_transport:  sendmail
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~
