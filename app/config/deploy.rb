@@ -5,6 +5,7 @@ set :app_path,    "app"
 set :user,        "dnikoudis"
 ssh_options[:port] = "2022"
 set :use_composer, true
+set :use_sudo, false
 
 set :repository,  "https://github.com/eellak/public-opinion-questionnaire.git"
 set :scm,         :git
