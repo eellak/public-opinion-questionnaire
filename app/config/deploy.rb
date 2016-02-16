@@ -26,7 +26,6 @@ set  :keep_releases,  3
 
 # Hooks
 after  "symfony:assetic:dump", "symfony:doctrine:schema:update" # Update doctrine schema
-before "deploy:restart", "deploy:set_permissions"
 
 # Be more verbose by uncommenting the following line
 logger.level = Logger::MAX_LEVEL
