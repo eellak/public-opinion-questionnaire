@@ -7,6 +7,11 @@ ssh_options[:port] = "2022"
 set :use_composer, true
 set :use_sudo, false
 
+set :writable_dirs,       ["app/cache", "app/logs"]
+set :webserver_user,      "www-data"
+set :permission_method,   :acl
+set :use_set_permissions, true
+
 set :repository,  "https://github.com/eellak/public-opinion-questionnaire.git"
 set :scm,         :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
