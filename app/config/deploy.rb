@@ -6,7 +6,6 @@ set :user,        "dnikoudis"
 ssh_options[:port] = "2022"
 set :use_composer, true
 set :use_sudo, true
-default_run_options[:pty] = true
 
 set :writable_dirs,       ["app/cache", "app/logs"]
 set :webserver_user,      "www-data"
