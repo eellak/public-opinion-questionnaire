@@ -5,7 +5,8 @@ set :app_path,    "app"
 set :user,        "dnikoudis"
 ssh_options[:port] = "2022"
 set :use_composer, true
-set :use_sudo, false
+set :use_sudo, true
+default_run_options[:pty] = true
 
 set :writable_dirs,       ["app/cache", "app/logs"]
 set :webserver_user,      "www-data"
@@ -23,6 +24,9 @@ role :web,        domain                         # Your HTTP server, Apache/etc
 role :app,        domain, :primary => true       # This may be the same as your `Web` server
 
 set  :keep_releases,  3
+
+# Hooks
+after  "symfony:assetic:dump", "symfony:doctrine:schema:update" # Update doctrine schema
 
 # Be more verbose by uncommenting the following line
 logger.level = Logger::MAX_LEVEL
