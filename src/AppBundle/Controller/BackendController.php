@@ -27,8 +27,7 @@ class BackendController extends Controller
             $SPSS = new \SPSSReader($request->files->get('fileToUpload')->getPathname());
             $dataset = new Dataset();
             $dataset->setFilename($request->files->get('fileToUpload')->getClientOriginalName());
-            //$profileDimensions = $this->setupProfileDimensions($SPSS);
-            //$questions = $this->setupQuestions($SPSS);
+            $this->container->get('spss.importer')->import($SPSS, $dataset->getFilename());
 
             return $this->render('AppBundle:Backend:import_results.html.twig', array(
                 'filename' => $dataset->getFilename(),
@@ -37,11 +36,4 @@ class BackendController extends Controller
         }
         return $this->render('AppBundle:Backend:import.html.twig', array());
     }
-
-    /*private function setupQuestions(\SPSSReader $SPSS) {
-        $questions = array();
-        foreach($SPSS->variables as $var) {
-            $var->getLabel()
-        }
-    }*/
 }

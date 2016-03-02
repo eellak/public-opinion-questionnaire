@@ -30,6 +30,13 @@ class Answer
     /**
      * @var string
      *
+     * @ORM\Column(name="answer_id", type="string", length=10, nullable=false)
+     */
+    private $answerId;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="answer", type="string", length=1024, nullable=false)
      */
     private $answer;
@@ -46,6 +53,10 @@ class Answer
 
     public function getQuestion() {
         return $this->question;
+    }
+
+    public function getAnswerId() {
+        return $this->answerId;
     }
 
     public function getAnswer() {
@@ -68,6 +79,10 @@ class Answer
 
     public function setQuestion($question) {
         $this->question = $question;
+    }
+
+    public function setAnswerId($answerId) {
+        $this->answerId = $answerId;
     }
 
     public function setAnswer($answer) {

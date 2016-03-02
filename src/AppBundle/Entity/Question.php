@@ -23,6 +23,11 @@ class Question
     private $id;
 
     /**
+     * @ORM\Column(name="question_id", type="string", length=10, nullable=false, unique=true)
+     */
+    private $questionId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="question", type="string", length=1024, nullable=false)
@@ -35,12 +40,20 @@ class Question
     private $answers;
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dataset", inversedBy="questions")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="dataset_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $dataset;
 
+    public function __construct() {
+        $this->answers = new ArrayCollection();
+    }
+
     function getId() {
         return $this->id;
+    }
+
+    function getQuestionId() {
+        return $this->questionId;
     }
 
     function getQuestion() {
@@ -65,6 +78,10 @@ class Question
 
     function setId($id) {
         $this->id = $id;
+    }
+
+    function setQuestionId($questionId) {
+        $this->questionId = $questionId;
     }
 
     function setQuestion($question) {
