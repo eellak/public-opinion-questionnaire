@@ -32,6 +32,9 @@ class SPSSImporter
     protected $questions;
     protected $dimensions;
 
+    protected $allQuestions;
+    protected $allAnswers;
+
     public function __construct($doctrine) {
         $this->doctrine = $doctrine;
     }
@@ -73,15 +76,16 @@ class SPSSImporter
             $questionSplitted = explode(' ', mb_convert_encoding($var->label, 'UTF-8', 'ISO-8859-7'), 2);
             $questionSplitted[0] = rtrim($questionSplitted[0], '.');
             // -----------------------
-            $this->doctrine->getRepository('AppBundle\Entity\Question')->findAll();
-            $this->doctrine->getRepository('AppBundle\Entity\Answer')->findAll();
-            $question = $this->doctrine->getRepository('AppBundle\Entity\Question')->findOneBy(array(
-                'questionId' => $questionSplitted[0],
-            ));
-            if(!isset($question)) {
+            $allQuestions = $this->doctrine->getRepository('AppBundle\Entity\Question')->findAll();
+            foreach($allQuestions as $curQuestion) { $this->allQuestions[$curQuestion->getQuestionId()] = $curQuestion; }
+            $allAnswers = $this->doctrine->getRepository('AppBundle\Entity\Answer')->findAll();
+            foreach($allAnswers as $curAnswer) { $this->allAnswers[$curAnswer->getQuestion()->getQuestionId().'_'.$curAnswer->getAnswerId()] = $curAnswer; }
+            if(!isset($this->allQuestions[$questionSplitted[0]])) {
                 $question = new Question();
                 $question->setQuestionId($questionSplitted[0]);
+                $this->allQuestions[$questionSplitted[0]] = $question;
             } else {
+                $question = $this->allQuestions[$questionSplitted[0]];
                 $question->getAnswers()->clear();
             }
             $question->setQuestion($questionSplitted[1]);
@@ -94,13 +98,12 @@ class SPSSImporter
                 $this->dimensions[$index] = $question;
             }
             foreach($var->valueLabels as $lkey => $lval) {
-                $answer = $this->doctrine->getRepository('AppBundle\Entity\Answer')->findOneBy(array(
-                    'question' => $question,
-                    'answerId' => $lkey,
-                ));
-                if(!isset($answer)) {
+                if(!isset($this->allAnswers[$questionSplitted[0].'_'.$lkey])) {
                     $answer = new Answer();
                     $answer->setAnswerId($lkey);
+                    $this->allAnswers[$questionSplitted[0].'_'.$lkey] = $answer;
+                } else {
+                    $answer = $this->allAnswers[$questionSplitted[0].'_'.$lkey];
                 }
                 $answer->setAnswer(mb_convert_encoding($lval, 'UTF-8', 'ISO-8859-7'));
                 $answer->setQuestion($question);
@@ -142,11 +145,11 @@ class SPSSImporter
                     $userAnswer->setDataset($dataset);
                     $userAnswer->setUser($user);
                     if($var->data[$case]==='NaN') { continue; }
-                    $answer = $this->doctrine->getRepository('AppBundle\Entity\Answer')->findOneBy(array(
-                        'question' => $this->questions[$index],
-                        'answerId' => $var->data[$case],
-                    ));
-                    if(!isset($answer)) { throw new \Exception('Could not find user answer for '.$index.' ('.$var->data[$case].') given'); }
+                    if(!isset($this->allAnswers[$this->questions[$index]->getQuestionId().'_'.$var->data[$case]])) {
+                        throw new \Exception('Could not find user answer for '.$index.' ('.$var->data[$case].') given');
+
+                    }
+                    $answer = $this->allAnswers[$this->questions[$index]->getQuestionId().'_'.$var->data[$case]];
                     $userAnswer->setAnswer($answer);
                     $this->doctrine->getManager()->persist($userAnswer);
                     $toFlush[] = $userAnswer;
