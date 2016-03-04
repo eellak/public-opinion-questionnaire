@@ -35,7 +35,7 @@ jQuery(function () {
             type: 'bar'
         },
         title: {
-            text: '{{question.questionId}}. {{question.question|raw}}',
+            text: '{{question.question|raw}}',
             align: 'left'
         },
         xAxis: {
@@ -73,7 +73,7 @@ jQuery(function () {
         series: [
         {
             showInLegend: false,
-            name: "{{page}}. {{question.question|raw}}",
+            name: "{{question.question|raw}}",
             data: [
             {% for answer in question.answers %}
             {y: {{answer.answerPercentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
