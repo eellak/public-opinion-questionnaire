@@ -1,0 +1,18 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h4>Ξεκινήστε το ερωτηματολόγιο από την αρχή </h4>
+            <a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" style="margin-left: 25px;">Κεφάλαιο {{sections[0].sectionId}}: {{sections[0].name}}</a>
+        <h4>ή επιλέξτε κεφάλαιο:</h4>
+        <ul>
+            {% for section in sections %}
+                {% if not loop.first %}
+                <li><a href="{{path('question', {'section': section.id, 'page': 1})}}">Κεφάλαιο {{section.sectionId}}: {{section.name}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

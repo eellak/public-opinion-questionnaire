@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use AppBundle\Entity\Section;
 use AppBundle\Entity\UserAnswer;
 
 class DefaultController extends Controller
@@ -17,16 +18,28 @@ class DefaultController extends Controller
     {
         return $this->render('AppBundle::index.html.twig', array(
             'page' => 1,
-            'questionCount' => 63,
+            'questionCount' => $this->getQuestionCount(),
         ));
     }
 
     /**
-     * @Route("/question/{page}", name="question")
+     * @Route("/section", name="select_section")
      */
-    public function questionAction($page, Request $request)
+    public function selectSectionAction(Request $request) {
+        $sections = $this->container->get('doctrine')->getRepository('AppBundle\Entity\Section')->findAll();
+        return $this->render('AppBundle::select_section.html.twig', array(
+            'page' => 1,
+            'sections' => $sections,
+            'questionCount' => $this->getQuestionCount(),
+        ));
+    }
+
+    /**
+     * @Route("/section/{section}/question/{page}", name="question")
+     */
+    public function questionAction(Section $section, $page, Request $request)
     {
-        $question = $this->getQuestion($page);
+        $question = $this->getQuestion($section, $page);
 
         if($request->getMethod() == 'POST') {
             $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
@@ -49,7 +62,7 @@ class DefaultController extends Controller
             'question' => $question,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
-            'questionCount' => 63,
+            'questionCount' => $this->getQuestionCount(),
         ));
     }
 
@@ -84,7 +97,7 @@ class DefaultController extends Controller
             'answerStatsProcessed' => $answerStatsProcessed,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
-            'questionCount' => 63,
+            'questionCount' => $this->getQuestionCount(),
         ));
     }
 
@@ -111,14 +124,14 @@ class DefaultController extends Controller
                 $this->container->get('doctrine')->getManager()->flush($user);
                 return $this->render('AppBundle::pause_success.html.twig', array(
                     'page' => 1,
-                    'questionCount' => 63,
+                    'questionCount' => $this->getQuestionCount(),
                     'email' => $request->get('email'),
                 ));
             }
         }
         return $this->render('AppBundle::pause.html.twig', array(
             'page' => 1,
-            'questionCount' => 63,
+            'questionCount' => $this->getQuestionCount(),
         ));
     }
 
@@ -137,10 +150,14 @@ class DefaultController extends Controller
         )));
     }
 
-    private function getQuestion($page) {
+    private function getQuestion(Section $section, $page) {
         if($page < 1) { $page = 1; }
-        $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q')->setMaxResults(1)->setFirstResult($page-1)->getResult();
+        $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q WHERE q.section = :section')->setParameter('section', $section)->setMaxResults(1)->setFirstResult($page-1)->getResult();
         $question = reset($question);
         return $question;
+    }
+
+    private function getQuestionCount() {
+        return $this->container->get('doctrine')->getManager()->createQuery('SELECT COUNT(q) FROM AppBundle\Entity\Question q')->getSingleScalarResult();
     }
 }

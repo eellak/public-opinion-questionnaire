@@ -43,6 +43,11 @@ class Question
      * @ORM\JoinColumn(name="dataset_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $dataset;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Section", inversedBy="questions")
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $section;
 
     public function __construct() {
         $this->answers = new ArrayCollection();
@@ -76,6 +81,10 @@ class Question
         return $this->dataset;
     }
 
+    function getSection() {
+        return $this->section;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -94,5 +103,9 @@ class Question
 
     function setDataset($dataset) {
         $this->dataset = $dataset;
+    }
+
+    function setSection($section) {
+        $this->section = $section;
     }
 }
