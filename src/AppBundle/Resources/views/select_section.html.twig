@@ -3,9 +3,16 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h4>Ξεκινήστε το ερωτηματολόγιο από την αρχή </h4>
-            <a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" style="margin-left: 25px;">Κεφάλαιο {{sections[0].sectionId}}: {{sections[0].name}}</a>
-        <h4>ή επιλέξτε κεφάλαιο:</h4>
+        <h4>Για να ξεκινήσετε το ερωτηματολόγιο από την αρχή</h4>
+        <ul>
+            <li><a href="{{path('question', {'section': sections[0].id, 'page': 1})}}">Κεφάλαιο {{sections[0].sectionId}}: {{sections[0].name}}</a></li>
+        </ul>
+        <div style="margin-top: 25px;">
+            <a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-primary btn-xlarge">Πατήστε εδώ</a>
+        </div>
+        <BR />
+        <h4>Διαφορετικά, μπορείτε να ξεκινήσετε επιλέγοντας από κάποιο ενδιάμεσο κεφάλαιο:</h4>
+        <BR />
         <ul>
             {% for section in sections %}
                 {% if not loop.first %}
