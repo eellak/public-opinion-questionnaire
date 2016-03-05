@@ -3,7 +3,7 @@
 {% block content %}
 <form name="form1" method="post" action="" style="margin: 0;">
     <div class="col-md-6">
-            <div>{{question.question}}</div>
+            <div>{{question.question|raw}}</div>
             <hr />
             {% for answer in question.answers %}
                 <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 96%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>

@@ -144,10 +144,10 @@ class SPSSImporter
                     $userAnswer = new UserAnswer();
                     $userAnswer->setDataset($dataset);
                     $userAnswer->setUser($user);
-                    if($var->data[$case]==='NaN') { continue; }
+                    if($var->data[$case]==='NaN' || $var->data[$case]=='') { continue; }
                     if(!isset($this->allAnswers[$this->questions[$index]->getQuestionId().'_'.$var->data[$case]])) {
-                        throw new \Exception('Could not find user answer for '.$index.' ('.$var->data[$case].') given');
-
+                        continue;
+                        //throw new \Exception('Could not find user answer for '.$index.' ('.$var->data[$case].') given');
                     }
                     $answer = $this->allAnswers[$this->questions[$index]->getQuestionId().'_'.$var->data[$case]];
                     $userAnswer->setAnswer($answer);
