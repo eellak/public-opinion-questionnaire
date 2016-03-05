@@ -99,10 +99,10 @@ class DefaultController extends Controller
             $errors = $validator->validate($user);
             if (count($errors) <= 0) {
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Hello Email')
+                    ->setSubject('Συνέχιση ερωτηματολογίου')
                     ->setFrom('info@poq.ellak.gr')
                     ->setTo($request->get('email'))
-                    ->setBody('Για να συνεχίσεις το ερωτηματολόγιο επισκέψου τον σύνδεσμο '.$this->container->get('router')->generate('resume', array(
+                    ->setBody('Για να συνεχίσετε το ερωτηματολόγιο, επισκεφθείτε το σύνδεσμο '.$this->container->get('router')->generate('resume', array(
                         'email' => $request->get('email'),
                     ), true), 'text/html')
                 ;

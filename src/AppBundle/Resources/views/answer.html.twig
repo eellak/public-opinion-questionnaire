@@ -6,7 +6,7 @@
 </div>
 <div class="col-md-6">
     <div style="text-align: right; padding-top:5px;">
-        <a href="{{path('question', {'page': page+1})}}" class="btn btn-poq">Next</a>
+        <a href="{{path('question', {'page': page+1})}}" class="btn btn-poq">Επόμενη</a>
         <BR />
         <BR />
         <BR />
@@ -73,7 +73,7 @@ jQuery(function () {
         series: [
         {
             showInLegend: false,
-            name: "{{page}}. {{question.question}}",
+            name: "",
             data: [
             {% for answer in question.answers %}
             {y: {{answer.answerPercentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
