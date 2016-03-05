@@ -8,7 +8,11 @@
 </div>
 <div class="col-md-6">
     <div style="text-align: right; padding-top:5px;">
+        {% if (page+1) > section.questions|length %}
+        <a href="{{path('question', {'section': (section.id+1), 'page': 1})}}" class="btn btn-poq">Επόμενο Κεφάλαιο</a>
+        {% else %}
         <a href="{{path('question', {'section': section.id, 'page': page+1})}}" class="btn btn-poq">Επόμενη</a>
+        {% endif %}
         <BR />
         <BR />
         <BR />
