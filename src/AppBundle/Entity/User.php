@@ -235,7 +235,7 @@ class User
             if(strpos($key, 'SOCIAL_CLASS') !== false) { $result['socialClass'][] = $curConstant; }
             if(strpos($key, 'REGION') !== false) { $result['region'][] = $curConstant; }
             if(strpos($key, 'URBANITY') !== false) { $result['urbanity'][] = $curConstant; }
-            if(strpos($key, 'POLITICAL_VIEW') !== false) { $result['politicalView'][] = $curConstant; }
+            //if(strpos($key, 'POLITICAL_VIEW') !== false) { $result['politicalView'][] = $curConstant; }
         }
         return $result;
     }

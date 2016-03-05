@@ -16,6 +16,7 @@ class AnswerManager
         $results = array();
         foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
             foreach($curDimension as $curValue) {
+                if($curValue == 'UNKNOWN') { continue; }
                 $stats = $this->em->getManager()->createQuery('SELECT
                     (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a AND u.'.$curField.' = :'.$curField.') as votes,
                     (SELECT COUNT(uaaa.id) FROM AppBundle\Entity\UserAnswer uaaa JOIN uaaa.answer aa JOIN uaaa.user uu WHERE aa.question = a.question AND uu.'.$curField.' = :'.$curField.') as sumVotes
@@ -25,8 +26,10 @@ class AnswerManager
                     ->setParameter('answer', $answer)
                     ->setParameter($curField, $curValue)
                     ->getSingleResult();
+                $percentage = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
+                if($percentage <= 0) { continue; }
                 $results[$curField][$curValue] = $stats;
-                $results[$curField][$curValue]['percentage'] = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
+                $results[$curField][$curValue]['percentage'] = $percentage;
             }
         }
         return $results;
