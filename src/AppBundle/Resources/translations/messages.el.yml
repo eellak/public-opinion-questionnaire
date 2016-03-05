@@ -23,6 +23,8 @@ educationLevel:
         percentage: όσων έχουν ολοκληρώσει τριτοβάθμια εκπαίδευση
     MASTER:
         percentage: όσων κατέχουν μεταπτυχιακό/διδακτορικό
+    UNKNOWN:
+        percentage: όσων δεν απάντησαν σχετικά με την εκπαίδευση τους
 income:
     500-:
         percentage: όσων έχουν εισόδημα κάτω από 500€
@@ -59,6 +61,8 @@ profession:
         percentage: των συνταξιούχων
     UNEMPLOYED:
         percentage: των ανέργων
+    UNKNOWN:
+        percentage: όσων δεν απάντησαν σχετικά με το επάγγελμα τους
 socialClass:
     LOWER:
         percentage: όσων ανήκουν στην κατώτερη προς μεσαία κοινωνική τάξη
@@ -66,6 +70,8 @@ socialClass:
         percentage: όσων ανήκουν στη μεσαία κοινωνική τάξη
     UPPER:
         percentage: όσων ανήκουν στην ανώτερη προς μεσαία κοινωνική τάξη
+    UNKNOWN:
+        percentage: όσων δεν δήλωσαν την κοινωνική τους τάξη
 region:
     ATTICA:
         percentage: των κατοίκων Αττικής

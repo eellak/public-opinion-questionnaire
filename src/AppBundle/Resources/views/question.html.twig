@@ -6,11 +6,11 @@
             <div>{{question.question}}</div>
             <hr />
             {% for answer in question.answers %}
-                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;"> <label style="max-width: 96%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
+                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 96%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
             {% endfor %}
             <div>
             {% if hasPrevious %}
-                <div><a href="{{path('question', {'page': page-1})}}">Previous question</a></div>
+                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Previous question</a></div>
             {% endif %}
             </div>
     </div>
@@ -26,6 +26,6 @@
 {% block bottomcontent %}
 <div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
     <hr style="margin-top: 10px; margin-bottom: 10px;" />
-    <a href="{{path('pause')}}">Αν επιθυμείτε να διακόψετε προσωρινά το ερωτηματόλογιο πατήστε εδώ.</a>
+    <a href="{{path('pause', {'section': section.id})}}">Αν επιθυμείτε να διακόψετε προσωρινά το ερωτηματόλογιο πατήστε εδώ.</a>
 </div>
 {% endblock %}

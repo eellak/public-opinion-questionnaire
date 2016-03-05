@@ -16,9 +16,9 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $sections = $this->container->get('doctrine')->getRepository('AppBundle\Entity\Section')->findAll();
         return $this->render('AppBundle::index.html.twig', array(
-            'page' => 1,
-            'questionCount' => $this->getQuestionCount(),
+            'sections' => $sections,
         ));
     }
 
@@ -28,9 +28,7 @@ class DefaultController extends Controller
     public function selectSectionAction(Request $request) {
         $sections = $this->container->get('doctrine')->getRepository('AppBundle\Entity\Section')->findAll();
         return $this->render('AppBundle::select_section.html.twig', array(
-            'page' => 1,
             'sections' => $sections,
-            'questionCount' => $this->getQuestionCount(),
         ));
     }
 
@@ -41,7 +39,7 @@ class DefaultController extends Controller
     {
         $question = $this->getQuestion($section, $page);
 
-        if($request->getMethod() == 'POST') {
+        if($request->getMethod() == 'POST' && $request->get('answer') != null) {
             $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
             $answer = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\Answer')->find($request->get('answer'));
             if(!$answer || $answer->getQuestion() != $question) {
@@ -55,22 +53,22 @@ class DefaultController extends Controller
             $userAnswer->setAnswer($answer);
             $this->container->get('doctrine')->getManager()->persist($userAnswer);
             $this->container->get('doctrine')->getManager()->flush($userAnswer);
-            return new RedirectResponse($this->container->get('router')->generate('answer', array('page' => $page)));
+            return new RedirectResponse($this->container->get('router')->generate('answer', array('section' => $section->getId(), 'page' => $page)));
         }
 
         return $this->render('AppBundle::question.html.twig', array(
             'question' => $question,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
-            'questionCount' => $this->getQuestionCount(),
+            'section' => $section,
         ));
     }
 
     /**
-     * @Route("/answer/{page}", name="answer")
+     * @Route("/section/{section}/answer/{page}", name="answer")
      */
-    public function answerAction($page, Request $request) {
-        $question = $this->getQuestion($page);
+    public function answerAction(Section $section, $page, Request $request) {
+        $question = $this->getQuestion($section, $page);
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         $answer = $this->container->get('doctrine')->getManager()->createQuery('SELECT ua FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE a.question = :question and ua.user = :user')->setParameter('user', $user)->setParameter('question', $question)->getResult();
         if(count($answer) <= 0) { throw new \Exception('Answer not found!'); }
@@ -97,14 +95,14 @@ class DefaultController extends Controller
             'answerStatsProcessed' => $answerStatsProcessed,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
-            'questionCount' => $this->getQuestionCount(),
+            'section' => $section,
         ));
     }
 
     /**
-     * @Route("/pause", name="pause")
+     * @Route("/pause/{section}", name="pause")
      */
-    public function pauseAction(Request $request) {
+    public function pauseAction(Section $section, Request $request) {
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         if($request->getMethod() == 'POST') {
             $user->setEmail($request->get('email'));
@@ -116,6 +114,7 @@ class DefaultController extends Controller
                     ->setFrom('info@poq.ellak.gr')
                     ->setTo($request->get('email'))
                     ->setBody('Για να συνεχίσετε το ερωτηματολόγιο, επισκεφθείτε το σύνδεσμο '.$this->container->get('router')->generate('resume', array(
+                        'section' => $section->getId(),
                         'email' => $request->get('email'),
                     ), true), 'text/html')
                 ;
@@ -123,31 +122,37 @@ class DefaultController extends Controller
                 $this->container->get('doctrine')->getManager()->persist($user);
                 $this->container->get('doctrine')->getManager()->flush($user);
                 return $this->render('AppBundle::pause_success.html.twig', array(
-                    'page' => 1,
-                    'questionCount' => $this->getQuestionCount(),
+                    'section' => $section,
                     'email' => $request->get('email'),
                 ));
             }
         }
         return $this->render('AppBundle::pause.html.twig', array(
-            'page' => 1,
-            'questionCount' => $this->getQuestionCount(),
+            'section' => $section,
         ));
     }
 
     /**
-     * @Route("/resume/{email}", name="resume")
+     * @Route("/resume/{section}", name="resume")
      */
-    public function resumeAction($email, Request $request) {
-        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('email' => $email));
-        if(!$user) { echo 'User not found to resume'; die(); }
-        $user->setSessionId($request->getSession()->getId());
-        $page = $this->container->get('doctrine')->getManager()->createQuery('SELECT COUNT(ua.id) FROM AppBundle\Entity\UserAnswer ua WHERE ua.user = :user')->setParameter('user', $user)->getSingleScalarResult();
-        $this->container->get('doctrine')->getManager()->persist($user);
-        $this->container->get('doctrine')->getManager()->flush($user);
-        return new RedirectResponse($this->container->get('router')->generate('question', array(
-            'page' => $page,
-        )));
+    public function resumeAction(Section $section, Request $request) {
+        if($this->getRequest()->get('email') != null) {
+            $email = $this->getRequest()->get('email');
+            $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('email' => $email));
+            if(!$user) { echo 'User not found to resume'; die(); }
+            $user->setSessionId($request->getSession()->getId());
+            $page = $this->container->get('doctrine')->getManager()->createQuery('SELECT COUNT(ua.id) FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a JOIn a.question q WHERE q.section = :section AND ua.user = :user')->setParameter('section', $section)->setParameter('user', $user)->getSingleScalarResult();
+            $this->container->get('doctrine')->getManager()->persist($user);
+            $this->container->get('doctrine')->getManager()->flush($user);
+            return new RedirectResponse($this->container->get('router')->generate('question', array(
+                'section' => $section->getId(),
+                'page' => $page,
+            )));
+        } else {
+            return $this->render('AppBundle::resume.html.twig', array(
+                'section' => $section,
+            ));
+        }
     }
 
     private function getQuestion(Section $section, $page) {
@@ -155,9 +160,5 @@ class DefaultController extends Controller
         $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q WHERE q.section = :section')->setParameter('section', $section)->setMaxResults(1)->setFirstResult($page-1)->getResult();
         $question = reset($question);
         return $question;
-    }
-
-    private function getQuestionCount() {
-        return $this->container->get('doctrine')->getManager()->createQuery('SELECT COUNT(q) FROM AppBundle\Entity\Question q')->getSingleScalarResult();
     }
 }

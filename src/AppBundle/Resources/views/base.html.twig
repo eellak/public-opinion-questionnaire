@@ -16,12 +16,16 @@
                 <div class="ellak-poq-head-row">
                     <div class="ellak-poq-head-text">τι πιστεύουν οι Έλληνες - μια έρευνα</div>
                     <div class="ellak-poq-head-text">
-                    {% if page > 0 and page < questionCount %}
-                        {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..questionCount %}&#9702;{% endfor %}
-                    {% elseif page >= questionCount %}
-                        {% for i in 1..questionCount %}&#8226;{% endfor %}
+                    {% if section is defined and page is defined %}
+                        {% if page > 0 and page < section.questions|length %}
+                            {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..(section.questions|length) %}&#9702;{% endfor %}
+                        {% elseif page >= section.questions|length %}
+                            {% for i in 1..section.questions|length %}&#8226;{% endfor %}
+                        {% else %}
+                            {% for i in 1..section.questions|length %}&#9702;{% endfor %}
+                        {% endif %}
                     {% else %}
-                        {% for i in 1..questionCount %}&#9702;{% endfor %}
+                        &nbsp;
                     {% endif %}
                     </div>
                 </div>
