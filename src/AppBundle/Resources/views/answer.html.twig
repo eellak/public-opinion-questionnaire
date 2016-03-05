@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="col-md-6">
+    <div>{{question.question|raw}}</div>
+    <hr />
     <div class="ellak-poq-answer-container"></div>
 </div>
 <div class="col-md-6">
@@ -35,7 +37,7 @@ jQuery(function () {
             type: 'bar'
         },
         title: {
-            text: '{{question.question|raw}}',
+            text: '',
             align: 'left'
         },
         xAxis: {
