@@ -1,0 +1,35 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="col-md-12 text-center">
+        <h3>Συγχαρητήρια!</h3>
+        <p>Ευχαριστούμε που συμμετείχες στην έρευνα</p>
+
+        <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά σε:</p>
+        <h2 style="margin-top: 0; margin-bottom: 15px;">{{answerStats[0].label|replace({'.percentage': '.name'})|trans}} ({{answerStats[0].value}}%)</h2>
+
+        <p>Οι απαντήσεις σας ταιριάζουν περισσότερο με:</p>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-4 text-left">
+                <ul>
+                    {% for answerStat in answerStats %}
+                        {% if not loop.first %}
+                        <li>{{answerStat.label|replace({'.percentage': '.name'})|trans}} ({{answerStat.value}}%)</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <p>&nbsp;</p>
+        <p><a class="btn btn-primary" href="#">Μοιράσου τα αποτελέσματα</a></p>
+</div>
+{{block('bottomcontent')}}
+{% endblock %}
+
+{% block bottomcontent %}
+<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
+    <hr style="margin-top: 10px; margin-bottom: 10px;" />
+    <small>Τα αναλυτικά αποτελέσματα της έρευνας είναι διαθέσιμα <a target="_blank" href="http://www.dianeosis.org/research/greek_values/">εδώ</a>.</small>
+</div>
+{% endblock %}

@@ -12,7 +12,7 @@ class SectionManager
         $this->em = $em;
     }
 
-    public function getSectionStats(Section $section, User $user) {
+    public function getSectionStats(Section $section = null, User $user = null) {
         $results = array();
         foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
             foreach($curDimension as $curValue) {
@@ -23,9 +23,12 @@ class SectionManager
                     FROM AppBundle\Entity\Answer a
                     JOIN a.question qs
                     JOIN a.userAnswers uas
-                    WHERE uas.user = :user AND qs.section = :section')
-                    ->setParameter('user', $user)
-                    ->setParameter('section', $section)
+                    WHERE uas.user = :user'.(isset($section) ? ' AND qs.section = :section' : ''))
+                    ->setParameter('user', $user);
+                if(isset($section)) {
+                    $tstats->setParameter('section', $section);
+                }
+                $tstats = $tstats
                     ->setParameter($curField, $curValue)
                     ->getResult();
                 $stats = array('votes' => 0, 'sumVotes' => 0);
@@ -42,7 +45,7 @@ class SectionManager
         return $results;
     }
 
-    public function getSectionStatsFlattenedSorted(Section $section, User $user) {
+    public function getSectionStatsFlattenedSorted(Section $section = null, User $user = null) {
         $results = $this->flatten($this->getSectionStats($section, $user));
         asort($results);
         return $results;

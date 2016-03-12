@@ -122,6 +122,27 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/final_results", name="final_results")
+     */
+    public function finalResultsAction(Section $section, Request $request) {
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
+        // Process answer stats
+        $answerStats = $this->container->get('app.section.manager')->getSectionStatsFlattenedSorted(null, $user);
+        $answerStatsProcessed = array();
+        $i = 0;
+        foreach(array_reverse($answerStats) as $key => $value) {
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+            $i++;
+            if($i > 3) { break; }
+        }
+        return $this->render('AppBundle::final_results.html.twig', array(
+            'nextSection' => $section,
+            'answerStats' => $answerStatsProcessed,
+            'page' => $section->getQuestions()->count(),
+        ));
+    }
+
+    /**
      * @Route("/pause/{section}", name="pause")
      */
     public function pauseAction(Section $section, Request $request) {
