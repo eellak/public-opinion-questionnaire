@@ -113,9 +113,10 @@ class DefaultController extends Controller
             $i++;
             if($i > 3) { break; }
         }
+        $nextSection = $this->container->get('doctrine')->getRepository(get_class($section))->find($section->getId()+1);
         return $this->render('AppBundle::section_results.html.twig', array(
             'section' => $section,
-            'nextSection' => $section,
+            'nextSection' => $nextSection,
             'answerStats' => $answerStatsProcessed,
             'page' => $section->getQuestions()->count(),
         ));
