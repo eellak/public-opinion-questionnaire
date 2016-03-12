@@ -8,7 +8,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Answer
  *
- * @ORM\Table
+ * @ORM\Table(indexes={
+ * @ORM\Index(name="gender", columns={"gender"}),
+ * @ORM\Index(name="age", columns={"age"}),
+ * @ORM\Index(name="education_level", columns={"education_level"}),
+ * @ORM\Index(name="income", columns={"income"}),
+ * @ORM\Index(name="profession", columns={"profession"}),
+ * @ORM\Index(name="social_class", columns={"social_class"}),
+ * @ORM\Index(name="region", columns={"region"}),
+ * @ORM\Index(name="urbanity", columns={"urbanity"}),
+ * @ORM\Index(name="political_view", columns={"political_view"}),
+ * })
  * @ORM\Entity
  */
 class User

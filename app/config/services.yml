@@ -17,3 +17,7 @@ services:
         class: AppBundle\Manager\AnswerManager
         arguments:
             - "@doctrine"
+    app.section.manager:
+        class: AppBundle\Manager\SectionManager
+        arguments:
+            - "@doctrine"

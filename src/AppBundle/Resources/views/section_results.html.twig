@@ -1,0 +1,33 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="col-md-12 text-center">
+        <h3>Συγχαρητήρια!</h3>
+        <p>Μόλις ολοκληρώσατε την ενότητα <b>{{section.name}}</b></p>
+
+        <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά στους:</p>
+        <h2 style="margin-top: 0; margin-bottom: 15px;">Αγρότες (90%)</h2>
+
+        <p>Οι απαντήσεις σας ταιριάζουν περισσότερο με:</p>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-4 text-left">
+                <ul>
+                    <li>Γυναίκες (70%)</li>
+                    <li>Ηλικίες 20-25 (65%)</li>
+                    <li>Εισόδημα ανώ των 60000 (55%)</li>
+                </ul>
+            </div>
+        </div>
+
+        <p>&nbsp;</p>
+        <p><a class="btn btn-primary" href="{{path('question', {'section': (section.id+1), 'page': 1})}}">Συνέχισε στην ενότητα<BR /><b>{{nextSection.name}}</b></a></p>
+</div>
+{{block('bottomcontent')}}
+{% endblock %}
+
+{% block bottomcontent %}
+<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
+    <hr style="margin-top: 10px; margin-bottom: 10px;" />
+    <small>Τα αναλυτικά αποτελέσματα της έρευνας είναι διαθέσιμα <a target="_blank" href="http://www.dianeosis.org/research/greek_values/">εδώ</a>.</small>
+</div>
+{% endblock %}
