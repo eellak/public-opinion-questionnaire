@@ -24,7 +24,7 @@
         <p>&nbsp;</p>
         <p>
             {% if nextSection != null %}
-                <a class="btn btn-primary" href="{{path('question', {'section': (section.id+1), 'page': 1})}}">Συνέχισε στην ενότητα<BR /><b>{{nextSection.name}}</b></a>
+                <a class="btn btn-primary" href="{{path('question', {'section': (section.id+1), 'page': 1})}}">Συνεχίστε στην ενότητα<BR /><b>{{nextSection.name}}</b></a>
             {% else %}
                 <a class="btn btn-primary" href="{{path('final_results')}}">Τελικά αποτελέσματα ερωτηματολογίου</a>
             {% endif %}
