@@ -3,7 +3,7 @@
 {% block content %}
 <div class="col-md-12 text-center">
         <h3><img src="{{asset('img/award-ribbon.jpg')}}" alt="Badge" /></h3>
-        <p>Ευχαριστούμε που συμμετείχατε στην έρευνα</p>
+        <p><b>Ευχαριστούμε που συμμετείχατε στην έρευνα.</b></p>
 
         <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά σε:</p>
         <h2 style="margin-top: 0; margin-bottom: 15px;">{{answerStats[0].label|replace({'.percentage': '.name'})|trans}} ({{answerStats[0].value}}%)</h2>
