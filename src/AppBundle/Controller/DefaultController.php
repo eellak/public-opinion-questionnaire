@@ -113,6 +113,7 @@ class DefaultController extends Controller
             $dimension = explode('.', $key);
             if(in_array($dimension[0], $shownDimensions)) { continue; }
             $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+            $shownDimensions[] = $dimension[0];
             $i++;
             if($i > 3) { break; }
         }
@@ -139,6 +140,7 @@ class DefaultController extends Controller
             $dimension = explode('.', $key);
             if(in_array($dimension[0], $shownDimensions)) { continue; }
             $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+            $shownDimensions[] = $dimension[0];
             $i++;
             if($i > 3) { break; }
         }
