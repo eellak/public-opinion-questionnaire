@@ -107,11 +107,11 @@ class DefaultController extends Controller
         // Process answer stats
         $answerStats = $this->container->get('app.section.manager')->getSectionStatsFlattenedSorted($section, $user);
         $answerStatsProcessed = array();
-        $i = 0;
+        $shownDimensions = array();
         foreach(array_reverse($answerStats) as $key => $value) {
+            $dimension = explode('.', $key);
+            if(in_array($dimension[0], $shownDimensions)) { continue; }
             $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
-            $i++;
-            if($i > 3) { break; }
         }
         $nextSection = $this->container->get('doctrine')->getRepository(get_class($section))->find($section->getId()+1);
         return $this->render('AppBundle::section_results.html.twig', array(
@@ -130,11 +130,11 @@ class DefaultController extends Controller
         // Process answer stats
         $answerStats = $this->container->get('app.section.manager')->getSectionStatsFlattenedSorted(null, $user);
         $answerStatsProcessed = array();
-        $i = 0;
+        $shownDimensions = array();
         foreach(array_reverse($answerStats) as $key => $value) {
+            $dimension = explode('.', $key);
+            if(in_array($dimension[0], $shownDimensions)) { continue; }
             $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
-            $i++;
-            if($i > 3) { break; }
         }
         return $this->render('AppBundle::final_results.html.twig', array(
             'answerStats' => $answerStatsProcessed,
