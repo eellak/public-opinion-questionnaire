@@ -76,7 +76,19 @@ class DefaultController extends Controller
         $answer = $answer->getAnswer();
         // Process answer stats
         $answerStats = $this->container->get('app.answer.manager')->getAnswerStatsFlattenedSorted($answer);
-        $answerStatsProcessed = $this->processAnswerStats($answerStats);
+        $answerStatsProcessed = array();
+        for($i = 0; $i <= 1; $i++) {
+            $value = reset($answerStats);
+            $key = key($answerStats);
+            unset($answerStats[$key]);
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+        }
+        for($i = 0; $i <= 1; $i++) {
+            $value = end($answerStats);
+            $key = key($answerStats);
+            unset($answerStats[$key]);
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+        }
         return $this->render('AppBundle::answer.html.twig', array(
             'question' => $question,
             'answer' => $answer,
@@ -94,31 +106,19 @@ class DefaultController extends Controller
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         // Process answer stats
         $answerStats = $this->container->get('app.section.manager')->getSectionStatsFlattenedSorted($section, $user);
-        $answerStatsProcessed = $this->processAnswerStats($answerStats);
-        var_dump($answerStatsProcessed); die();
+        $answerStatsProcessed = array();
+        $i = 0;
+        foreach(array_reverse($answerStats) as $key => $value) {
+            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
+            $i++;
+            if($i > 3) { break; }
+        }
         return $this->render('AppBundle::section_results.html.twig', array(
             'section' => $section,
             'nextSection' => $section,
-            'answerStatsProcessed' => $answerStatsProcessed,
+            'answerStats' => $answerStatsProcessed,
             'page' => $section->getQuestions()->count(),
         ));
-    }
-
-    private function processAnswerStats($answerStats) {
-        $answerStatsProcessed = array();
-        for($i = 0; $i <= 1; $i++) {
-            $value = reset($answerStats);
-            $key = key($answerStats);
-            unset($answerStats[$key]);
-            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
-        }
-        for($i = 0; $i <= 1; $i++) {
-            $value = end($answerStats);
-            $key = key($answerStats);
-            unset($answerStats[$key]);
-            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
-        }
-        return $answerStatsProcessed;
     }
 
     /**

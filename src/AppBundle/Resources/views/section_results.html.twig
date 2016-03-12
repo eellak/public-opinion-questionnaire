@@ -6,15 +6,15 @@
         <p>Μόλις ολοκληρώσατε την ενότητα <b>{{section.name}}</b></p>
 
         <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά στους:</p>
-        <h2 style="margin-top: 0; margin-bottom: 15px;">Αγρότες (90%)</h2>
+        <h2 style="margin-top: 0; margin-bottom: 15px;">{{answerStats[0].label|replace({'.percentage': '.name'})|trans}} ({{answerStats[0].value}}%)</h2>
 
         <p>Οι απαντήσεις σας ταιριάζουν περισσότερο με:</p>
         <div class="row">
             <div class="col-md-6 col-md-offset-4 text-left">
                 <ul>
-                    <li>Γυναίκες (70%)</li>
-                    <li>Ηλικίες 20-25 (65%)</li>
-                    <li>Εισόδημα ανώ των 60000 (55%)</li>
+                    {% for answerStat in answerStats if not loop.first %}
+                    <li>{{answerStat.label|replace({'.percentage': '.name'})|trans}} ({{answerStat.value}}%)</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
