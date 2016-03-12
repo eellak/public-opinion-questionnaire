@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="col-md-12 text-center">
-        <h3>Συγχαρητήρια!</h3>
-        <p>Ευχαριστούμε που συμμετείχες στην έρευνα</p>
+        <h3><img src="{{asset('img/badge.jpg')}}" alt="Badge" /></h3>
+        <p>Ευχαριστούμε που συμμετείχατε στην έρευνα</p>
 
         <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά σε:</p>
         <h2 style="margin-top: 0; margin-bottom: 15px;">{{answerStats[0].label|replace({'.percentage': '.name'})|trans}} ({{answerStats[0].value}}%)</h2>
@@ -22,7 +22,7 @@
         </div>
 
         <p>&nbsp;</p>
-        <p><a class="btn btn-primary" href="#">Μοιράσου τα αποτελέσματα</a></p>
+        <p><a class="btn btn-primary" href="#">Μοιραστείτε τα αποτελέσματα</a></p>
 </div>
 {{block('bottomcontent')}}
 {% endblock %}
