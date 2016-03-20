@@ -5,17 +5,14 @@
         <h3><img src="{{asset('img/award-ribbon.jpg')}}" alt="Badge" /></h3>
         <p><b>Ευχαριστούμε που συμμετείχατε στην έρευνα.</b></p>
 
-        <p>Με βάση τα στατιστικά βρίσκεστε πιο κοντά σε:</p>
-        <h2 style="margin-top: 0; margin-bottom: 15px;">{{answerStats[0].label|replace({'.percentage': '.name'})|trans}} ({{answerStats[0].value}}%)</h2>
-
         <p>Οι απαντήσεις σας ταιριάζουν περισσότερο με:</p>
         <div class="row">
             <div class="col-md-6 col-md-offset-4 text-left">
                 <ul>
-                    {% for answerStat in answerStats %}
-                        {% if not loop.first %}
-                        <li>{{answerStat.label|replace({'.percentage': '.name'})|trans}} ({{answerStat.value}}%)</li>
-                        {% endif %}
+                    {% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
+                        {% set label = values|keys|first %}
+                        {% set value = (values|first).percentage %}
+                        <li>{{(dimension~'.'~label~'.name')|trans}} ({{value}}%)</li>
                     {% endfor %}
                 </ul>
             </div>

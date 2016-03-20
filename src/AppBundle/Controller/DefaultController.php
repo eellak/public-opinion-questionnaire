@@ -132,20 +132,9 @@ class DefaultController extends Controller
     public function finalResultsAction(Request $request) {
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         // Process answer stats
-        $answerStats = $this->container->get('app.section.manager')->getSectionStatsFlattenedSorted(null, $user);
-        $answerStatsProcessed = array();
-        $shownDimensions = array();
-        $i = 0;
-        foreach(array_reverse($answerStats) as $key => $value) {
-            $dimension = explode('.', $key);
-            if(in_array($dimension[0], $shownDimensions)) { continue; }
-            $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
-            $shownDimensions[] = $dimension[0];
-            $i++;
-            if($i > 3) { break; }
-        }
+        $answerStats = $this->container->get('app.section.manager')->getSectionStats(null, $user);
         return $this->render('AppBundle::final_results.html.twig', array(
-            'answerStats' => $answerStatsProcessed,
+            'answerStats' => $answerStats,
         ));
     }
 

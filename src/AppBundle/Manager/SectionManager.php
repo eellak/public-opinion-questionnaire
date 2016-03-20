@@ -41,6 +41,10 @@ class SectionManager
                 $results[$curField][$curValue] = $stats;
                 $results[$curField][$curValue]['percentage'] = $percentage;
             }
+            uasort($results[$curField], function($a, $b) {
+                if($a['percentage'] == $b['percentage']) { return 0; }
+                return $b['percentage'] - $a['percentage'];
+            });
         }
         return $results;
     }
