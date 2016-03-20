@@ -25,6 +25,8 @@ class AnswerManager
                     // WHERE a.question = :question
                     ->setParameter('answer', $answer)
                     ->setParameter($curField, $curValue)
+                    ->useQueryCache(true)
+                    ->useResultCache(true)
                     ->getSingleResult();
                 $percentage = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
                 if($percentage <= 0) { continue; }
