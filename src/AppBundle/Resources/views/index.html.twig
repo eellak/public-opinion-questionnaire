@@ -9,7 +9,8 @@
     <div class="col-md-6 border-l">
         <div style="height: 220px; display: table; width: 100%;">
             <div style="display: table-cell; vertical-align: middle;">
-                <a href="{{path('select_section')}}" class="btn btn-primary btn-xlarge">Έναρξη</a>
+                {#<a href="{{path('select_section')}}" class="btn btn-primary btn-xlarge">Έναρξη</a>#}
+                <a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-primary btn-xlarge">Έναρξη</a>
             </div>
         </div>
         <div style="height: 200px; display: table; width: 100%;">
