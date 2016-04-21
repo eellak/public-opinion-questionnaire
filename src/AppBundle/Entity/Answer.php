@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Answer
@@ -47,6 +48,17 @@ class Answer
      */
     private $userAnswers;
 
+     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AnswerStat", mappedBy="answer")
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    private $answerStats;
+
+    public function __construct() {
+        $this->userAnswers = new ArrayCollection();
+        $this->answerStats = new ArrayCollection();
+    }
+
     public function getId() {
         return $this->id;
     }
@@ -65,6 +77,10 @@ class Answer
 
     public function getUserAnswers() {
         return $this->userAnswers;
+    }
+
+    function getAnswerStats() {
+        return $this->answerStats;
     }
 
     function getAnswerPercentage() {
@@ -91,5 +107,9 @@ class Answer
 
     public function setUserAnswers($userAnswers) {
         $this->userAnswers = $userAnswers;
+    }
+
+    function setAnswerStats($answerStats) {
+        $this->answerStats = $answerStats;
     }
 }

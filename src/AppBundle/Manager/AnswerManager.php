@@ -15,22 +15,23 @@ class AnswerManager
     public function getAnswerStats(Answer $answer) {
         $results = array();
         foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
+            $stats = $this->em->getManager()->createQuery('SELECT
+                ans.dimensionValue, ans.percentage
+                FROM AppBundle\Entity\AnswerStat ans
+                INDEX BY ans.dimensionValue
+                WHERE ans.answer = :answer AND ans.dimension = :curField')
+                // WHERE a.question = :question
+                ->setParameter('answer', $answer)
+                ->setParameter('curField', $curField)
+                ->useQueryCache(true)
+                ->useResultCache(true)
+                ->getResult();
             foreach($curDimension as $curValue) {
                 if($curValue == 'UNKNOWN') { continue; }
-                $stats = $this->em->getManager()->createQuery('SELECT
-                    (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a AND u.'.$curField.' = :'.$curField.') as votes,
-                    (SELECT COUNT(uaaa.id) FROM AppBundle\Entity\UserAnswer uaaa JOIN uaaa.answer aa JOIN uaaa.user uu WHERE aa.question = a.question AND uu.'.$curField.' = :'.$curField.') as sumVotes
-                    FROM AppBundle\Entity\Answer a
-                    WHERE a = :answer')
-                    // WHERE a.question = :question
-                    ->setParameter('answer', $answer)
-                    ->setParameter($curField, $curValue)
-                    ->useQueryCache(true)
-                    ->useResultCache(true)
-                    ->getSingleResult();
-                $percentage = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
+                if(!isset($stats[$curValue])) { continue; }
+                $percentage = $stats[$curValue]['percentage'];
                 if($percentage <= 0) { continue; }
-                $results[$curField][$curValue] = $stats;
+                $results[$curField][$curValue] = $stats[$curValue];
                 $results[$curField][$curValue]['percentage'] = $percentage;
             }
         }
