@@ -83,12 +83,6 @@ class Answer
         return $this->answerStats;
     }
 
-    function getAnswerPercentage() {
-        $answers = $this->userAnswers->count();
-        $totalAnswers = $this->question->getUserAnswersCount();
-        return round($answers/$totalAnswers*100, 2);
-    }
-
     public function setId($id) {
         $this->id = $id;
     }
