@@ -89,9 +89,11 @@ class DefaultController extends Controller
             unset($answerStats[$key]);
             $answerStatsProcessed[] = array('label' => $key, 'value' => $value);
         }
+        $answerTotals = $this->container->get('app.answer.manager')->getAnswerTotals($answer->getQuestion());
         return $this->render('AppBundle::answer.html.twig', array(
             'question' => $question,
             'answer' => $answer,
+            'answerTotals' => $answerTotals,
             'answerStatsProcessed' => $answerStatsProcessed,
             'page' => $page,
             'hasPrevious' => $page <= 1 ? false : true,
