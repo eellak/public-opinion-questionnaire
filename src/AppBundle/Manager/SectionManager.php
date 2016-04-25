@@ -25,7 +25,7 @@ class SectionManager
                     JOIN a.userAnswers uas
                     WHERE uas.user = :user'.(isset($section) ? ' AND qs.section = :section' : ''))
                     ->useQueryCache(true)
-                    ->useResultCache(true)
+                    //->useResultCache(true)
                     ->setParameter('user', $user);
                 if(isset($section)) {
                     $tstats->setParameter('section', $section);
