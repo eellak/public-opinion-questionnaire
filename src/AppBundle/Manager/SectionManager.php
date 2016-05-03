@@ -3,6 +3,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Section;
 use AppBundle\Entity\User;
+use \Doctrine\ORM\Query;
 
 class SectionManager
 {
@@ -13,39 +14,41 @@ class SectionManager
     }
 
     public function getSectionStats(Section $section = null, User $user = null) {
+        // Section -> question -> selectedAnswer -> dimensions percentage
+        // /
+        // Section -> question -> selectedAnswer -> total percentage
         $results = array();
-        foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
-            foreach($curDimension as $curValue) {
-                if($curValue == 'UNKNOWN') { continue; }
-                $tstats = $this->em->getManager()->createQuery('SELECT
-                    (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a AND u.'.$curField.' = :'.$curField.') as votes,
-                    (SELECT COUNT(uaaa.id) FROM AppBundle\Entity\UserAnswer uaaa JOIN uaaa.answer aa JOIN uaaa.user uu WHERE aa.question = a.question AND uu.'.$curField.' = :'.$curField.') as sumVotes
-                    FROM AppBundle\Entity\Answer a
-                    JOIN a.question qs
-                    JOIN a.userAnswers uas
-                    WHERE uas.user = :user'.(isset($section) ? ' AND qs.section = :section' : ''))
-                    ->useQueryCache(true)
-                    //->useResultCache(true)
-                    ->setParameter('user', $user);
-                if(isset($section)) {
-                    $tstats->setParameter('section', $section);
-                }
-                $tstats = $tstats
-                    ->setParameter($curField, $curValue)
-                    ->getResult();
-                $stats = array('votes' => 0, 'sumVotes' => 0);
-                foreach($tstats as $curTstat) {
-                    $stats['votes'] = $stats['votes'] + $curTstat['votes'];
-                    $stats['sumVotes'] = $stats['sumVotes'] + $curTstat['sumVotes'];
-                }
-                $percentage = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
+        // Get user answer ids
+        $answerIds = $this->em->getManager()->createQuery('SELECT a.id FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE ua.user = :user GROUP BY a.id')
+            ->setParameter('user', $user)
+            ->useQueryCache(true)
+            ->getResult(Query::HYDRATE_ARRAY);
+        // Get total percentages
+        $rtotalCounts = $this->em->getManager()->createQuery('SELECT a.id, COUNT(ua.id) FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE a.id IN (:answerIds) GROUP BY a.id')
+            ->setParameter('answerIds', $answerIds)
+            ->useQueryCache(true)
+            ->getResult(Query::HYDRATE_ARRAY);
+        $totalCounts = array();
+        foreach($rtotalCounts as $t) {
+            $totalCounts[$t['id']] = $t;
+        }
+        unset($rtotalCounts);
+        // Get dimension percentages
+        foreach(array_keys(User::getDimensionsExpanded()) as $curField) {
+            $dimensionCounts = $this->em->getManager()->createQuery('SELECT a.id, u.'.$curField.', COUNT(ua.id) FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a JOIN ua.user u WHERE a.id IN (:answerIds) GROUP BY a.id, u.'.$curField)
+                ->setParameter('answerIds', $answerIds)
+                ->useQueryCache(true)
+                ->getResult(Query::HYDRATE_ARRAY);
+            foreach($dimensionCounts as $curCount) {
+                if($curCount[$curField] == 'UNKNOWN' || $curCount[$curField] == null) { continue; }
+                $percentage = round($curCount[1]/$totalCounts[$curCount['id']][1]*100, 1);
                 if($percentage <= 0) { continue; }
-                $results[$curField][$curValue] = $stats;
-                $results[$curField][$curValue]['percentage'] = $percentage;
+                $results[$curField][$curCount[$curField]] = array();
+                $results[$curField][$curCount[$curField]]['percentage'] = $percentage;
             }
             uasort($results[$curField], function($a, $b) {
                 if($a['percentage'] == $b['percentage']) { return 0; }
-                return $b['percentage'] - $a['percentage'];
+                return $a['percentage'] < $b['percentage'] ? 1 : -1;
             });
         }
         return $results;
