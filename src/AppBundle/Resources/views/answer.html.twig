@@ -9,7 +9,8 @@
 <div class="col-md-6">
     <div style="text-align: right; padding-top:5px;">
         {% if (page+1) > section.questions|length %}
-        <a href="{{path('section_results', {'section': section.id})}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>
+        {#<a href="{{path('section_results', {'section': section.id})}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>#}
+        <a href="{{path('final_results')}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>
         {% else %}
         <a href="{{path('question', {'section': section.id, 'page': page+1})}}" class="btn btn-poq">Επόμενη</a>
         {% endif %}
@@ -20,7 +21,7 @@
         <BR />
     </div>
     <div class="ellak-poq-answer-similar">
-        <h2>{{answer.answerPercentage}}% απάντησαν όπως εσείς</h2>
+        <h2>{{answerTotals[answer.id].percentage}}% απάντησαν όπως εσείς</h2>
         <h3>&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}}</h3>
         <h3>&nbsp;&nbsp;&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}}</h3>
         <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
@@ -85,7 +86,7 @@ jQuery(function () {
             name: "",
             data: [
             {% for answer in question.answers %}
-            {y: {{answer.answerPercentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
+            {y: {{answerTotals[answer.id].percentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
             {% endfor %}
             ]
         }

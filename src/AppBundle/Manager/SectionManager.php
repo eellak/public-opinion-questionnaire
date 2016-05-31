@@ -3,6 +3,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Section;
 use AppBundle\Entity\User;
+use \Doctrine\ORM\Query;
 
 class SectionManager
 {
@@ -13,6 +14,9 @@ class SectionManager
     }
 
     public function getSectionStats(Section $section = null, User $user = null) {
+        // Section -> question -> selectedAnswer -> dimensions percentage
+        // /
+        // Section -> question -> selectedAnswer -> total percentage
         $results = array();
         $generalPopulationStats = $this->em->getManager()->createQuery('SELECT
             a.id,
@@ -82,7 +86,7 @@ class SectionManager
             }
             uasort($results[$curField], function($a, $b) {
                 if($a['percentage'] == $b['percentage']) { return 0; }
-                return $b['percentage'] - $a['percentage'];
+                return $a['percentage'] < $b['percentage'] ? 1 : -1;
             });
         }
         return $results;

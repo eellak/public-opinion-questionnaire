@@ -24,7 +24,7 @@ class BackendController extends Controller
     {
         if($request->getMethod() == 'POST' && $request->files->get('fileToUpload') != null) {
             $SPSS = new \SPSSReader($request->files->get('fileToUpload')->getPathname());
-            $this->container->get('spss.importer')->import($SPSS, $request->files->get('fileToUpload')->getClientOriginalName());
+            //$this->container->get('spss.importer')->import($SPSS, $request->files->get('fileToUpload')->getClientOriginalName());
 
             return $this->render('AppBundle:Backend:import_results.html.twig', array(
                 'filename' => $request->files->get('fileToUpload')->getClientOriginalName(),

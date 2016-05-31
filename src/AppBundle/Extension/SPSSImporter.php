@@ -75,6 +75,22 @@ class SPSSImporter
             // -- Split question id --
             $questionSplitted = explode(' ', mb_convert_encoding($var->label, 'UTF-8', 'ISO-8859-7'), 2);
             $questionSplitted[0] = rtrim($questionSplitted[0], '.');
+            $tmpSplit = explode('.', $questionSplitted[0], 2);
+            if($tmpSplit[0] == '3') { $tmpSplit[0] = '9'; } // C
+            else if($tmpSplit[0] == '4') { $tmpSplit[0] = '8'; } // C
+            else if($tmpSplit[0] == '5') { $tmpSplit[0] = '10'; } // C
+            else if($tmpSplit[0] == '6') { $tmpSplit[0] = '12'; } // C
+            else if($tmpSplit[0] == '7') { $tmpSplit[0] = '13'; } // C
+            else if($tmpSplit[0] == '8') { $tmpSplit[0] = '19'; } // PROBLEM
+            else if($tmpSplit[0] == '9') { $tmpSplit[0] = '23'; } // C
+            else if($tmpSplit[0] == '10') { $tmpSplit[0] = '24'; } // C
+            else if($tmpSplit[0] == '11') { $tmpSplit[0] = '25'; } // C
+            else if($tmpSplit[0] == '12') { $tmpSplit[0] = '36'; } // C
+            else if($tmpSplit[0] == '13') { $tmpSplit[0] = '37'; } // C
+            else if($tmpSplit[0] == '14') { $tmpSplit[0] = '38'; } // C
+            else if($tmpSplit[0] == '15') { $tmpSplit[0] = '53'; } // C
+            else if($tmpSplit[0] == '16') { $tmpSplit[0] = '56'; } // C
+            $questionSplitted[0] = implode('.', $tmpSplit);
             // -----------------------
             $allQuestions = $this->doctrine->getRepository('AppBundle\Entity\Question')->findAll();
             foreach($allQuestions as $curQuestion) { $this->allQuestions[$curQuestion->getQuestionId()] = $curQuestion; }
@@ -83,13 +99,13 @@ class SPSSImporter
             if(!isset($this->allQuestions[$questionSplitted[0]])) {
                 $question = new Question();
                 $question->setQuestionId($questionSplitted[0]);
+                $question->setQuestion($questionSplitted[1]);
+                $question->setDataset($dataset);
                 $this->allQuestions[$questionSplitted[0]] = $question;
             } else {
                 $question = $this->allQuestions[$questionSplitted[0]];
                 $question->getAnswers()->clear();
             }
-            $question->setQuestion($questionSplitted[1]);
-            $question->setDataset($dataset);
             if(!$this->isDimension($question->getQuestionId())) {
                 $this->doctrine->getManager()->persist($question);
                 $toFlush[] = $question;
