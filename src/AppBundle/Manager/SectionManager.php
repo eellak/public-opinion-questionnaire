@@ -14,13 +14,35 @@ class SectionManager
 
     public function getSectionStats(Section $section = null, User $user = null) {
         $results = array();
+        $generalPopulationStats = $this->em->getManager()->createQuery('SELECT
+            a.id,
+            (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a) as votes,
+            (SELECT COUNT(uaaa.id) FROM AppBundle\Entity\UserAnswer uaaa JOIN uaaa.answer aa JOIN uaaa.user uu WHERE aa.question = a.question) as sumVotes
+            FROM AppBundle\Entity\Answer a
+            INDEX BY a.id
+            JOIN a.question qs
+            JOIN a.userAnswers uas
+            WHERE uas.user = :user'.(isset($section) ? ' AND qs.section = :section' : ''))
+            ->useQueryCache(true)
+            ->useResultCache(true)
+            ->setParameter('user', $user);
+        if(isset($section)) {
+            $generalPopulationStats->setParameter('section', $section);
+        }
+        $generalPopulationStats = $generalPopulationStats->getResult();
+        foreach($generalPopulationStats as &$curStat) {
+            $curStat['percentage'] = $curStat['votes']/$curStat['sumVotes'];
+        }
         foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
             foreach($curDimension as $curValue) {
                 if($curValue == 'UNKNOWN') { continue; }
                 $tstats = $this->em->getManager()->createQuery('SELECT
-                    (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a AND u.'.$curField.' = :'.$curField.') as votes,
+                    a.id,
+                    (SELECT COUNT(uaab.id) FROM AppBundle\Entity\UserAnswer uaab WHERE uaab.answer = a) as votes,
+                    (SELECT COUNT(uaa.id) FROM AppBundle\Entity\UserAnswer uaa JOIN uaa.user u WHERE uaa.answer = a AND u.'.$curField.' = :'.$curField.') as dimVotes,
                     (SELECT COUNT(uaaa.id) FROM AppBundle\Entity\UserAnswer uaaa JOIN uaaa.answer aa JOIN uaaa.user uu WHERE aa.question = a.question AND uu.'.$curField.' = :'.$curField.') as sumVotes
                     FROM AppBundle\Entity\Answer a
+                    INDEX BY a.id
                     JOIN a.question qs
                     JOIN a.userAnswers uas
                     WHERE uas.user = :user'.(isset($section) ? ' AND qs.section = :section' : ''))
@@ -33,14 +55,29 @@ class SectionManager
                 $tstats = $tstats
                     ->setParameter($curField, $curValue)
                     ->getResult();
-                $stats = array('votes' => 0, 'sumVotes' => 0);
-                foreach($tstats as $curTstat) {
-                    $stats['votes'] = $stats['votes'] + $curTstat['votes'];
-                    $stats['sumVotes'] = $stats['sumVotes'] + $curTstat['sumVotes'];
+                foreach($tstats as &$curStat) {
+                    if($curStat['sumVotes'] > 0) {
+                        $curStat['percentage'] = $curStat['dimVotes']/$curStat['votes']; // Percentage of e.g. men who answered this compared to everyone who answered this
+                        $tstatPercentage = $curStat['dimVotes']/$curStat['sumVotes']; // Percentage of e.g. men who answered this compared to all men (on any answer)
+                        $curStat['weight'] = abs($tstatPercentage*100 - $generalPopulationStats[$curStat['id']]['percentage']*100);
+                    } else {
+                        $curStat['percentage'] = 0;
+                        $curStat['weight'] = 0;
+                    }
                 }
-                $percentage = ($stats['sumVotes'] != 0 ? round($stats['votes']/$stats['sumVotes']*100, 2) : 0);
+                // Find the weighted mean
+                $sum = 0;
+                $weightSum = 0;
+                foreach($tstats as &$curStat) {
+                    $sum = $sum + $curStat['weight']*$curStat['percentage'];
+                    $weightSum = $weightSum + $curStat['weight'];
+                }
+
+                //$percentage = $sum/$weightSum;
+                $percentage = $sum/$weightSum;
+                $percentage = round($percentage*100, 1);
                 if($percentage <= 0) { continue; }
-                $results[$curField][$curValue] = $stats;
+                $results[$curField][$curValue] = array();
                 $results[$curField][$curValue]['percentage'] = $percentage;
             }
             uasort($results[$curField], function($a, $b) {
