@@ -63,7 +63,11 @@ class SectionManager
                     if($curStat['sumVotes'] > 0) {
                         $curStat['percentage'] = $curStat['dimVotes']/$curStat['votes']; // Percentage of e.g. men who answered this compared to everyone who answered this
                         $tstatPercentage = $curStat['dimVotes']/$curStat['sumVotes']; // Percentage of e.g. men who answered this compared to all men (on any answer)
-                        $curStat['weight'] = abs($tstatPercentage*100 - $generalPopulationStats[$curStat['id']]['percentage']*100);
+                        if($tstatPercentage > $generalPopulationStats[$curStat['id']]['percentage']) {
+                            $curStat['weight'] = $tstatPercentage*100 - $generalPopulationStats[$curStat['id']]['percentage']*100;
+                        } else {
+                            $curStat['weight'] = 0;
+                        }
                     } else {
                         $curStat['percentage'] = 0;
                         $curStat['weight'] = 0;
