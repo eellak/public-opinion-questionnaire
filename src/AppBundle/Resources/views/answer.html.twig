@@ -6,7 +6,7 @@
     <hr />
     <div class="ellak-poq-answer-container" style="max-height: 255px;"></div>
     {% if hasPrevious %}
-        <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page})}}">Προηγούμενη ερώτηση</a></div>
+        <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page})}}">Επιστροφή στην ερώτηση</a></div>
     {% endif %}
 </div>
 <div class="col-md-6">
@@ -89,7 +89,7 @@ jQuery(function () {
             name: "",
             data: [
             {% for answer in question.answers %}
-            {y: {{answerTotals[answer.id].percentage}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
+            {y: {{answerTotals[answer.id].percentage != '' ? answerTotals[answer.id].percentage : 0}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
             {% endfor %}
             ]
         }
