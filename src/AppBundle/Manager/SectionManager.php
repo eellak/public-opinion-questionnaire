@@ -40,6 +40,7 @@ class SectionManager
         foreach(User::getDimensionsExpanded() as $curField => $curDimension) {
             foreach($curDimension as $curValue) {
                 if($curValue == 'UNKNOWN') { continue; }
+                if($curValue == 'RETIRED') { continue; }
                 $tstats = $this->em->getManager()->createQuery('SELECT
                     a.id,
                     (SELECT COUNT(uaab.id) FROM AppBundle\Entity\UserAnswer uaab WHERE uaab.answer = a) as votes,
