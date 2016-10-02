@@ -1,38 +1,52 @@
-{% extends 'AppBundle::question.html.twig' %}
+{% extends 'AppBundle::base_in_progress.html.twig' %}
 
-{% block content %}
-<div class="col-md-6">
-    <div>{{question.question|raw}}</div>
-    <hr />
-    <div class="ellak-poq-answer-container" style="max-height: 255px;"></div>
-    {% if hasPrevious %}
-        <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page})}}">Επιστροφή στην ερώτηση</a></div>
-    {% endif %}
+{% block content_main %}
+<div class="row">
+    <div class="col-md-offset-2 col-md-2">
+        <h4>&nbsp;</h4>
+        <br />
+        {% for answer in question.answers %}
+            <div><input type="radio" id="answer-{{answer.id}}" name="answer" disabled="disabled" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
+        {% endfor %}
+        <div>
+        {% if hasPrevious %}
+            <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
+        {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4>Πως απάντησαν οι Έλληνες</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="ellak-poq-answer-container" style="max-height: 255px;"></div>
+            </div>
+            <div class="col-md-6">
+                <b>Η απάντηση σας είχε υψηλότερη ταύτηση με:</b>
+                <ul>
+                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}} <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}%</b></li>
+                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}} <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}%</b></li>
+                </ul>
+                <b>Και χαμηλότερη ταύτηση με:</b>
+                <ul>
+                    <li>{{answerStatsProcessed[0].label|trans}} <b>{{answerStatsProcessed[0].value}}%</b></li>
+                    <li>{{answerStatsProcessed[1].label|trans}} <b>{{answerStatsProcessed[1].value}}%</b></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="col-md-6">
-    <div style="text-align: right; padding-top:5px;">
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-2">
         {% if (page+1) > section.questions|length %}
         {#<a href="{{path('section_results', {'section': section.id})}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>#}
         <a href="{{path('final_results')}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>
         {% else %}
         <a href="{{path('question', {'section': section.id, 'page': page+1})}}" class="btn btn-poq">Επόμενη</a>
         {% endif %}
-        <BR />
-        <BR />
-        <BR />
-        <BR />
-        <BR />
-    </div>
-    <div class="ellak-poq-answer-similar">
-        <h2>{{answerTotals[answer.id].percentage}}% απάντησαν όπως εσείς</h2>
-        <h3>&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}}</h3>
-        <h3>&nbsp;&nbsp;&nbsp;&nbsp;{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}% {{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}}</h3>
-        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;αλλά μόνο</h4>
-        <h3>&nbsp;&nbsp;&nbsp;&nbsp;{{answerStatsProcessed[0].value}}% {{answerStatsProcessed[0].label|trans}}</h3>
-        <h3>&nbsp;&nbsp;{{answerStatsProcessed[1].value}}% {{answerStatsProcessed[1].label|trans}}</h3>
     </div>
 </div>
-{{block('bottomcontent')}}
 {% endblock %}
 {% block javascripts %}
 {{parent()}}
@@ -59,14 +73,7 @@ jQuery(function () {
             minorTickLength: 0,
             tickLength: 0,
             categories: [{% for answer in question.answers %}'{{answer.answer}}'{% if not loop.last %},{% endif %}{% endfor %}],
-            labels: {
-                align:'left',
-                x:5,
-                style: {
-                    fontSize: '1em',
-                    color:'#fff'
-                }
-            }
+            labels: false
         },
         yAxis: {
             visible: false

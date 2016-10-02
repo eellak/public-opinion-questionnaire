@@ -1,0 +1,25 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h1>{{page}}/{{section.questions|length}}</h1>
+        <p>{{question.question|raw}}</p>
+        <hr />
+    </div>
+</div>
+
+{% block content_main %}{% endblock %}
+{% endblock %}
+
+{#{% if section is defined and page is defined %}
+                        {% if page > 0 and page < section.questions|length %}
+                            {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..(section.questions|length) %}&#9702;{% endfor %}
+                        {% elseif page >= section.questions|length %}
+                            {% for i in 1..section.questions|length %}&#8226;{% endfor %}
+                        {% else %}
+                            {% for i in 1..section.questions|length %}&#9702;{% endfor %}
+                        {% endif %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}#}

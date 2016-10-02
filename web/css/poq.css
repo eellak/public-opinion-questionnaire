@@ -1,133 +1,68 @@
 /* General theme */
 html,
 body {
-    width: 100%;
-    height: 100%;
+    font-family: 'Open Sans', sans-serif;
     font-size: 16px;
 }
 
-html {
-    display: table;
+hr {
+    color: #0099A8;
+    border: solid 1px #0099A8;
 }
 
-body {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.btn-primary {
-    background-image: none;
-    background-color: #32a4af;
-    border-color: #32a4af;
-}
-
-.btn-primary:hover, .btn-primary:focus {
-    background-color: #4BC5D0;
-    border-color: #4BC5D0;
-}
-
-.btn-xlarge {
-    padding: 18px 28px;
-    font-size: 22px;
-    line-height: normal;
-    -webkit-border-radius: 8px;
-       -moz-border-radius: 8px;
-            border-radius: 8px;
-}
-
-.poq-main {
-    max-width: 1000px;
-}
-
-.ellak-poq {
+.poq-header {
+    background-color: #0099A8;
     color: #fff;
-    background-color: #32A4AF;
-    padding: 5px;
-    min-height: 500px;
 }
 
-.ellak-poq-main-content {
-    background-color: #fff;
+.btn-poq-warning {
+    color: #ffffff;
+    background-color: #D97804;
+}
+.btn-poq-warning:hover {
+    color: #ffffff;
+}
+
+.btn-poq-default {
+    font-weight: bold;
+    border: 2px solid #0099A8;
+    border-radius: 0;
+    padding: 5px 30px;
     color: #000;
-    padding: 10px;
-    min-height: 445px;
 }
 
-.ellak-poq-head-text {
-    padding-left: 15px;
+/* Cirlce button - http://bootsnipp.com/snippets/featured/circle-button */
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
 }
 
-.btn-poq {
-    padding: 20px;
-    position: relative;
-    color:#fff;
-    background-color:#4BC5D0;
-    text-align:center;
-    margin-right: 40px;
-    display: inline-block;
-    width: 135px;
-}
-.btn-poq:hover, .btn-poq:focus {
-    color: #fff;
-    outline:0 !important;
-}
-.btn-poq:after {
-    content:"";
-    position: absolute;
-    left: 100%;
-    top:0px;
-    width:0px;
-    height:0px;
-    border-top:30px solid transparent;
-    border-left:40px solid #4BC5D0;
-    border-bottom:30px solid transparent;
-}
-
-.nopadding {
-   padding: 0 !important;
-   margin: 0 !important;
-}
-
-/* Home page */
-@media (min-width: 768px ) {
-  .row {
-      position: relative;
-  }
-
-  .bottom-align-text {
-    position: absolute;
-    bottom: 0;
-  }
-}
-
-.poq-logo {
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-.border-l {
-    border-left: 1px #000 solid;
-}
-
-/* Similar answers */
-.ellak-poq-main-content.ellak-poq-answer-similar h1,
-.ellak-poq-main-content .ellak-poq-answer-similar h2,
-.ellak-poq-main-content .ellak-poq-answer-similar h3,
-.ellak-poq-main-content .ellak-poq-answer-similar h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-}
-
-.ellak-poq-main-content .ellak-poq-answer-similar h2 {
-    color: #3D9BA4;
-    font-size: 1.4375rem;
-}
-.ellak-poq-main-content .ellak-poq-answer-similar h3 {
-    color: #6FB1BD;
-    font-size: 1rem;
-}
-.ellak-poq-main-content .ellak-poq-answer-similar h4 {
-    font-size: 1rem;
-    color: #000;
-    text-transform: none;
+.btn-circle.btn-xxl {
+    width: 140px;
+    height: 140px;
+    padding: 53px 28px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 70px;
 }

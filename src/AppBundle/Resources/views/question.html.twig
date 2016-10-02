@@ -1,10 +1,9 @@
-{% extends 'AppBundle::base.html.twig' %}
+{% extends 'AppBundle::base_in_progress.html.twig' %}
 
-{% block content %}
-<form name="form1" method="post" action="" style="margin: 0;">
-    <div class="col-md-6">
-            <div>{{question.question|raw}}</div>
-            <hr />
+{% block content_main %}
+<div class="row">
+    <div class="col-md-offset-2 col-md-2">
+        <form name="form1" method="post" action="" style="margin: 0;">
             {% for answer in question.answers %}
                 <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
             {% endfor %}
@@ -13,19 +12,20 @@
                 <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
             {% endif %}
             </div>
+        </form>
     </div>
-    <div class="col-md-6">
-        <div style="text-align: right; padding-top:5px;">
-            <div><button type="submit" class="btn btn-poq">Επόμενη</button></div>
-        </div>
-    </div>
-</form>
-{{block('bottomcontent')}}
-{% endblock %}
-
-{% block bottomcontent %}
-<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
+</div>
+{#<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
     <hr style="margin-top: 10px; margin-bottom: 10px;" />
     <a href="{{path('pause', {'section': section.id})}}">Αν επιθυμείτε να διακόψετε προσωρινά το ερωτηματόλογιο πατήστε εδώ.</a>
-</div>
+</div>#}
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script>
+        $('input[name="answer"]:radio').change(function() {
+            $(this).closest('form').submit();
+        });
+    </script>
 {% endblock %}

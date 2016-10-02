@@ -6,34 +6,32 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+
         <link rel="stylesheet" href="{{asset('css/poq.css')}}">
 
         <title>Public Opinion Questionnaire</title>
     </head>
     <body>
-        <div class="center-block poq-main">
-            <div class="ellak-poq">
-                <div class="ellak-poq-head-row">
-                    <div class="ellak-poq-head-text">τι πιστεύουν οι Έλληνες - μια έρευνα</div>
-                    <div class="ellak-poq-head-text">
-                    {% if section is defined and page is defined %}
-                        {% if page > 0 and page < section.questions|length %}
-                            {% for i in 1..page %}&#8226;{% endfor %}{% for i in (page+1)..(section.questions|length) %}&#9702;{% endfor %}
-                        {% elseif page >= section.questions|length %}
-                            {% for i in 1..section.questions|length %}&#8226;{% endfor %}
-                        {% else %}
-                            {% for i in 1..section.questions|length %}&#9702;{% endfor %}
-                        {% endif %}
-                    {% else %}
-                        &nbsp;
-                    {% endif %}
-                    </div>
+        <div class="container-fluid">
+            <div class="row text-center poq-header">
+                <div class="col-md-offset-2 col-md-8">
+                    <p>&nbsp;</p>
+                    <h1>Τι Πιστεύουν οι Έλληνες &ndash; μια έρευνα</h1>
+                    <h4>Ερωτηματολόγιο Κοινής Γνώμης</h4>
+                    <p>&nbsp;</p>
                 </div>
-
-                <div class="container-fluid">
-                    <div class="ellak-poq-main-content row">
-                    {% block content %}{% endblock %}
+            </div>
+            {% block content %}{% endblock %}
+            <div class="row text-center">
+                <div class="col-md-offset-1 col-md-10">
+                    {% block footer %}
+                    <div class="row">
+                        <div class="col-md-2 pull-left">
+                            <img src="{{asset('img/logo.png')}}" alt="Logo" />
+                        </div>
                     </div>
+                    {% endblock %}
                 </div>
             </div>
         </div>

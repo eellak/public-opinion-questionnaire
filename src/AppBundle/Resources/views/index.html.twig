@@ -2,33 +2,33 @@
 
 {% block content %}
 <div class="row text-center">
-    <div class="col-md-6">
-        <p><img class="poq-logo" src="http://placehold.it/150x150" /></p>
-        <p>Lorem weirwood ever vigilant amet, the wall slay, fire the last of the dragons pavilion court m'lady old bear. Ut enim manhood throne veniam, quis nostrud exercitation ullamco sandsilk poison is a woman's weapon commodo others. Tourney aute irure dolor in reprehenderit in voluptate suckling pig cillum dolore eu fugiat nulla pariatur. Blood sint occaecat cupidatat non proident, brother in culpa qui officia as high as honor est smallfolk.</p>
-    </div>
-    <div class="col-md-6 border-l">
-        <div style="height: 220px; display: table; width: 100%;">
-            <div style="display: table-cell; vertical-align: middle;">
-                {#<a href="{{path('select_section')}}" class="btn btn-primary btn-xlarge">Έναρξη</a>#}
-                <a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-primary btn-xlarge">Έναρξη</a>
-            </div>
-        </div>
-        <div style="height: 200px; display: table; width: 100%;">
-            <div style="display: table-cell; vertical-align: top;">
-                Αν έχετε αποθηκεύσει το ερωτηματολόγιο συνεχίστε εδώ<BR /><BR />
-                <a href="{{path('resume', {'section': sections[0].id})}}" class="btn btn-default btn-lg">Συνέχιση</a>
-            </div>
-        </div>
-        <div class="bottom-align-text">
-            <small>* η συμμετοχή στο ερωτηματολόγιο είναι ανώνυμη - η υπηρεσία δεν αποθηκεύει κανένα προσωπικό στοιχείο</small>
-        </div>
+    <div class="col-md-offset-2 col-md-8">
+        <p>&nbsp;</p>
+        <h1>Καλώς ορίσατε</h1>
+        <p>&nbsp;</p>
+        <p class="text-justify">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+
+        <p>&nbsp;</p>
+        <p class="text-justify"><small>* η συμμετοχή στο ερωτηματολόγιο είναι ανώνυμη - η υπηρεσία δεν αποθηκεύει κανένα προσωπικό στοιχείο</small></p>
     </div>
 </div>
+<div class="row text-center">
+    <div class="col-md-offset-1 col-md-10">
+        <hr />
+        <p><a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-poq-warning btn-circle btn-xxl">Έναρξη</a></p>
+        <p><small>Αν είστε νέος χρήστης</small></p>
+    </div>
+</div>
+{% endblock %}
 
-{#<div class="text-center">
-
-<p>Royal pretium tincidunt lacus. A taste of glory king. Moon-flower juice, honeyed locusts the seven, m'lord eros never resting, nec warg magna felis night's watch. Green dreams prince eu nibh euismod gravida. Duis ac maid mare's milk vulputate vehicula. Donec sister bloody mummers ward. Spiced wine. Arbor gold, maidenhead old bear slay, eros est euismod dragons, gallant tincidunt seven hells a quam. We light the way. Donec fermentum. Pellentesque tread lightly here throne. Bastard moon-flower juice, lance garron, commodo smallfolk, the wall, neque. Aliquam ser, your grace merchant aliquet, squire nisl adipiscing brother, sed malesuada work her will holdfast. Night's watch death mace. Your grace. Arakh consequat. None so fierce, dapibus quis, suckling pig, pretium blood, nisi. Warg realm dungeon, ever vigilant, honeyed locusts, green dreams, fool. Spare me your false courtesy.</p>
-    <hr />
-
-</div>#}
+{% block footer %}
+<div class="row">
+    <div class="col-md-2 pull-left">
+        <img src="{{asset('img/logo.png')}}" alt="Logo" />
+    </div>
+    <div class="col-md-2 pull-right">
+        <p><a href="{{path('resume', {'section': sections[0].id})}}" class="btn btn-poq-default">Συνέχεια</a></p>
+        <p><small>Αν έχετε αποθηκεύσει το ερωτηματολόγιο συνεχίστε εδώ</small></p>
+    </div>
+</div>
 {% endblock %}
