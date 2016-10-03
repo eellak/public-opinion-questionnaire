@@ -8,6 +8,8 @@ body {
 hr {
     color: #0099A8;
     border: solid 1px #0099A8;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .poq-header {

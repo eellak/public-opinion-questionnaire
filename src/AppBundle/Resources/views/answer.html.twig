@@ -4,22 +4,9 @@
 
 {% block content_main %}
 <div class="row">
-    <div class="col-md-offset-2 col-md-2">
-        <form name="form1" method="post" action="{{path('question', {'section': section.id, 'page': page})}}" style="margin: 0;">
-            <h4>&nbsp;</h4>
-            <br style="margin-bottom: 20px;" />
-            {% for answer in question.answers %}
-                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswer.id %} checked="checked"{% endif %}> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
-            {% endfor %}
-            <div>
-            {% if hasPrevious %}
-                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
-            {% endif %}
-            </div>
-        </form>
-    </div>
+    {{block('content_question_main')}}
     <div class="col-md-6">
-        <h4>Πως απάντησαν οι Έλληνες</h4>
+        <h4 style="margin-top: 0; margin-bottom: 0;">Πως απάντησαν οι Έλληνες</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
@@ -51,6 +38,8 @@
         {% endif %}
     </div>
 </div>
+
+{{block('content_rest_main')}}
 {% endblock %}
 {% block javascripts %}
 {{parent()}}

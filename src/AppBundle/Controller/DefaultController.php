@@ -168,9 +168,7 @@ class DefaultController extends Controller
                 ));
             }
         }
-        return $this->render('AppBundle::pause.html.twig', array(
-            'section' => $section,
-        ));
+        return new RedirectResponse($this->container->get('router')->generate('home'));
     }
 
     /**
