@@ -190,9 +190,7 @@ class DefaultController extends Controller
                 'page' => $page,
             )));
         } else {
-            return $this->render('AppBundle::resume.html.twig', array(
-                'section' => $section,
-            ));
+            return new RedirectResponse($this->container->get('router')->generate('home'));
         }
     }
 

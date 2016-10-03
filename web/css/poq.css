@@ -31,6 +31,24 @@ hr {
     color: #000;
 }
 
+/* Home page */
+#poq-resume-wrapper .input-group-addon {
+    padding: 0;
+    border: none;
+}
+
+#poq-resume-wrapper input[type="text"] {
+    border: 2px solid #0099A8;
+    border-right: none;
+    border-radius: 0;
+}
+
+#poq-resume-wrapper input[type="submit"] {
+    border: 2px solid #0099A8;
+    border-radius: 0;
+    padding: 5px 12px;
+}
+
 /* Cirlce button - http://bootsnipp.com/snippets/featured/circle-button */
 .btn-circle {
     width: 30px;

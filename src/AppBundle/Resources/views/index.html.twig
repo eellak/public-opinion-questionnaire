@@ -27,8 +27,28 @@
         <img src="{{asset('img/logo.png')}}" alt="Logo" />
     </div>
     <div class="col-md-2 pull-right">
-        <p><a href="{{path('resume', {'section': sections[0].id})}}" class="btn btn-poq-default">Συνέχεια</a></p>
+        <p><a id="poq-resume" class="btn btn-poq-default">Συνέχεια</a></p>
+        <div id="poq-resume-wrapper" style="display: none;">
+            <form class="form" action="{{path('resume', {'section': sections[0].id})}}" method="POST">
+                <div class="input-group">
+                    <input type="text" name="email" placeholder="E-Mail" class="form-control"/>
+                    <span class="input-group-addon">
+                        <input class="btn btn-default" type="submit" value="OK" />
+                    </span>
+                </div>
+            </form>
+        </div>
         <p><small>Αν έχετε αποθηκεύσει το ερωτηματολόγιο συνεχίστε εδώ</small></p>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script>
+        $('#poq-resume').click(function() {
+            $(this).hide();
+            $('#poq-resume-wrapper').show();
+        });
+    </script>
 {% endblock %}

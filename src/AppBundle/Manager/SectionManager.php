@@ -77,7 +77,7 @@ class SectionManager
                 // Find the weighted mean
                 $sum = 0;
                 $weightSum = 0;
-                foreach($tstats as &$curStat) {
+                foreach($tstats as $curStat) {
                     $sum = $sum + $curStat['weight']*$curStat['percentage'];
                     $weightSum = $weightSum + $curStat['weight'];
                 }
