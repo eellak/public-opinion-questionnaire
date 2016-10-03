@@ -3,6 +3,8 @@
 {% block content %}
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
+        <hr style="border: 1px solid #58595B; margin-bottom: 0px;" />
+        <div id="poq-question-progress-bar"><div style="background-color: #D97804; display: inline-block; height: 5px; margin-top: -3px;"><small>&nbsp; &nbsp; &nbsp;</small></div></div>
         <h1>{{page}}/{{section.questions|length}}</h1>
         <p>{{question.question|raw}}</p>
         <hr />
@@ -10,6 +12,16 @@
 </div>
 
 {% block content_main %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var percent = Math.round({{page-1}}/{{section.questions|length}} * 100) / 100;
+        $('#poq-question-progress-bar > div').css('margin-left', (percent*100)+'%');
+    });
+</script>
 {% endblock %}
 
 {#{% if section is defined and page is defined %}
