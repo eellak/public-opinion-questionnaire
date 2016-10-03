@@ -3,7 +3,7 @@
 {% block content_main %}
 <div class="row">
     <div class="col-md-offset-2 col-md-2">
-        <form name="form1" method="post" action="" style="margin: 0;">
+        <form name="form1" method="post" action="{{path('question', {'section': section.id, 'page': page})}}" style="margin: 0;">
             {% for answer in question.answers %}
                 <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
             {% endfor %}

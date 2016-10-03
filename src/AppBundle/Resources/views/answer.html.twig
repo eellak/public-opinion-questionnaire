@@ -1,25 +1,29 @@
-{% extends 'AppBundle::base_in_progress.html.twig' %}
+{% extends 'AppBundle::question.html.twig' %}
+
+{% set selectedAnswer = answer %}
 
 {% block content_main %}
 <div class="row">
     <div class="col-md-offset-2 col-md-2">
-        <h4>&nbsp;</h4>
-        <br />
-        {% for answer in question.answers %}
-            <div><input type="radio" id="answer-{{answer.id}}" name="answer" disabled="disabled" value="{{answer.id}}" style="vertical-align: top;" required> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
-        {% endfor %}
-        <div>
-        {% if hasPrevious %}
-            <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
-        {% endif %}
-        </div>
+        <form name="form1" method="post" action="{{path('question', {'section': section.id, 'page': page})}}" style="margin: 0;">
+            <h4>&nbsp;</h4>
+            <br style="margin-bottom: 20px;" />
+            {% for answer in question.answers %}
+                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswer.id %} checked="checked"{% endif %}> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
+            {% endfor %}
+            <div>
+            {% if hasPrevious %}
+                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
+            {% endif %}
+            </div>
+        </form>
     </div>
     <div class="col-md-6">
         <h4>Πως απάντησαν οι Έλληνες</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
-                <div class="ellak-poq-answer-container" style="max-height: 255px;"></div>
+                <div class="ellak-poq-answer-container" style="max-height: {{(question.answers|length)*33}}px;"></div>
             </div>
             <div class="col-md-6">
                 <b>Η απάντηση σας είχε υψηλότερη ταύτηση με:</b>
@@ -38,12 +42,12 @@
 </div>
 
 <div class="row">
-    <div class="col-md-offset-2 col-md-2">
+    <div class="col-md-offset-2 col-md-8 text-right">
         {% if (page+1) > section.questions|length %}
         {#<a href="{{path('section_results', {'section': section.id})}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>#}
-        <a href="{{path('final_results')}}" class="btn btn-poq" style="width: 145px;">Αποτελέσματα</a>
+            <a href="{{path('final_results')}}" style="color: #D97804;" class="lead">Αποτελέσματα</a>
         {% else %}
-        <a href="{{path('question', {'section': section.id, 'page': page+1})}}" class="btn btn-poq">Επόμενη</a>
+            <a href="{{path('question', {'section': section.id, 'page': page+1})}}" style="color: #D97804;" class="lead"><b>Επόμενη ερώτηση</b> &nbsp; <span class="btn btn-poq-warning btn-circle btn-sm"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></span></a>
         {% endif %}
     </div>
 </div>
@@ -96,7 +100,7 @@ jQuery(function () {
             name: "",
             data: [
             {% for answer in question.answers %}
-            {y: {{answerTotals[answer.id].percentage != '' ? answerTotals[answer.id].percentage : 0}}, name: "{{answer.answer}}", color: '#33A1AF'}{% if not loop.last %},{% endif %}
+            {y: {{answerTotals[answer.id].percentage != '' ? answerTotals[answer.id].percentage : 0}}, name: "{{answer.answer}}", color: {% if answer.id == selectedAnswer.id %}'#D97804'{% else %}'#33A1AF'{% endif %}}{% if not loop.last %},{% endif %}
             {% endfor %}
             ]
         }
