@@ -12,15 +12,22 @@
             {% for answer in question.answers %}
                 <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswerId %} checked="checked"{% endif %}> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
             {% endfor %}
-            <div>
-            {% if hasPrevious %}
-                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}" style="color: #D97804;" class="lead">Προηγούμενη ερώτηση</a></div>
-            {% endif %}
-            </div>
         </form>
     </div>
     {% endblock %}
 </div>
+
+
+{% if hasPrevious %}
+<div class="row">
+    <div class="col-md-offset-2 col-md-2">
+        <p>&nbsp;</p>
+        {% block previous_question %}
+        <a href="{{path('question', {'section': section.id, 'page': page-1})}}" style="color: #D97804;" class="lead"><b>Προηγούμενη ερώτηση</b></a>
+        {% endblock %}
+    </div>
+</div>
+{% endif %}
 
 {% block content_rest_main %}
 <div class="row">
