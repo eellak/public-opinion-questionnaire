@@ -1,32 +1,58 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block content %}
-<div class="col-md-12 text-center">
-        <h3><img src="{{asset('img/award-ribbon.jpg')}}" alt="Badge" /></h3>
-        <p><b>Ευχαριστούμε που συμμετείχατε στην έρευνα.</b></p>
-
-        <p>Οι απαντήσεις σας ταιριάζουν περισσότερο με:</p>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-4 text-left">
-                <ul>
-                    {% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
-                        {% set label = values|keys|first %}
-                        {% set value = (values|first).percentage %}
-                        <li>{{(dimension~'.'~label~'.name')|trans}} ({{value}}%)</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <p>&nbsp;</p>
-        <p><a class="btn btn-primary" href="#">Μοιραστείτε τα αποτελέσματα</a></p>
+<div class="row text-center">
+    <div class="col-md-12">
+        <h1>Ολοκληρώσατε το Ερωτηματολόγιο, ευχαριστούμε.</h1>
+        <hr />
+    </div>
 </div>
-{{block('bottomcontent')}}
-{% endblock %}
 
-{% block bottomcontent %}
-<div class="bottom-align-text text-center" style="width: 98%; padding-bottom: 10px;">
-    <hr style="margin-top: 10px; margin-bottom: 10px;" />
-    <small>Τα αναλυτικά αποτελέσματα της έρευνας είναι διαθέσιμα <a target="_blank" href="http://www.dianeosis.org/research/greek_values/">εδώ</a>.</small>
+<div class="row text-center">
+    <div class="col-md-offset-4 col-md-4 text-center">
+        <p><b>Οι απαντήσεις που δώσατε ταιριάζουν περισσότερο<BR />με αυτές των εξής πληθυσμιακών ομάδων:</b></p>
+    </div>
+    <div class="col-md-2 text-center">
+        <p><b>Είναι σωστά τα αποτελέσματα που έδωσε η εφαρμογή;</b></p>
+    </div>
+</div>
+
+{% set i = 0 %}
+{% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
+    <div class="row text-center">
+        <div class="col-md-offset-4 col-md-4 text-center">
+            {% set label = values|keys|first %}
+            {% set value = (values|first).percentage %}
+            <b>{{value}}%</b> {{(dimension~'.'~label~'.name')|trans}}
+        </div>
+        <div class="col-md-1 text-center">
+            ΝΑΙ
+        </div>
+        <div class="col-md-1 text-center">
+            ΟΧΙ
+        </div>
+    </div>
+    {% if i < (values|length) %}<hr style="border: 1px solid #F5F5F5; margin-top: 2px; margin-bottom: 2px;" />{% endif %}
+    {% set i = i + 1 %}
+{% endfor %}
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-offset-4 col-md-4 text-center">
+        <h3><b><a target="_blank" href="http://www.dianeosis.org/research/greek_values/" style="color: #0099A8;">Δείτε τα αποτελέσματα της Έρευνας</a></b></h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
 </div>
 {% endblock %}
