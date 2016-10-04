@@ -10,7 +10,7 @@
             <h4>&nbsp;</h4>
             <br />
             {% for answer in question.answers %}
-                <div><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswerId %} checked="checked"{% endif %}> <label style="max-width: 95%;" for="answer-{{answer.id}}">{{answer.answer}}</label></div>
+                <div><label style="max-width: 95%;" for="answer-{{answer.id}}"><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswerId %} checked="checked"{% endif %}> {{answer.answer}}</label></div>
             {% endfor %}
         </form>
     </div>
