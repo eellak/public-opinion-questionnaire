@@ -14,7 +14,7 @@
             {% endfor %}
             <div>
             {% if hasPrevious %}
-                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}">Προηγούμενη ερώτηση</a></div>
+                <div style="margin-top: 20px;"><a href="{{path('question', {'section': section.id, 'page': page-1})}}" style="color: #D97804;" class="lead">Προηγούμενη ερώτηση</a></div>
             {% endif %}
             </div>
         </form>
