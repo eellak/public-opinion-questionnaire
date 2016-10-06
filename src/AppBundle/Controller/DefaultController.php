@@ -5,9 +5,12 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use AppBundle\Entity\Section;
 use AppBundle\Entity\UserAnswer;
+use AppBundle\Entity\User;
+use AppBundle\Form\Type\UserType;
 
 class DefaultController extends Controller
 {
@@ -133,11 +136,46 @@ class DefaultController extends Controller
      */
     public function finalResultsAction(Request $request) {
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
+        $userDimensionForms = array();
+        foreach(User::getDimensionsExpanded() as $curDimension => $curValues) {
+            $userDimensionForms[$curDimension] = $this->createForm(new UserType($curDimension, $curValues), new User())->createView();
+        }
         // Process answer stats
         $answerStats = $this->container->get('app.section.manager')->getSectionStats(null, $user);
+        foreach($answerStats as $curDimension => $curValues) {
+            $value = array_keys($curValues)[0];
+            $getter = 'get'.ucfirst($curDimension);
+            $setter = 'set'.ucfirst($curDimension);
+            if($user->$getter() == null) {
+                $user->$setter($value);
+                $this->container->get('doctrine')->getManager()->persist($user);
+                $this->container->get('doctrine')->getManager()->flush($user);
+            }
+        }
         return $this->render('AppBundle::final_results.html.twig', array(
+            'user' => $user,
             'answerStats' => $answerStats,
+            'userDimensionForms' => $userDimensionForms,
         ));
+    }
+
+    /**
+     * @Route("/final_results_change", name="final_results_change")
+     */
+    public function finalResultChangeAction(Request $request) {
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
+        $dimensions = User::getDimensionsExpanded();
+        $form = $this->createForm(new UserType($request->get('dimension'), $dimensions[$request->get('dimension')]), $user);
+        if ('POST' == $request->getMethod()) {
+            $form->handleRequest($request);
+            if($form->isValid()) {
+                $this->container->get('doctrine')->getManager()->persist($form->getData());
+                $this->container->get('doctrine')->getManager()->flush($form->getData());
+            } else {
+                return new Response($form->getErrorsAsString(), 400);
+            }
+        }
+        return new Response('', 204);
     }
 
     /**

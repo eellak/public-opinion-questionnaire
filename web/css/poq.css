@@ -51,6 +51,15 @@ hr {
     padding: 5px 12px;
 }
 
+/* Results page */
+.poq-result-row a {
+    color: #333333;
+}
+
+.poq-result-row .selected {
+    color: #0099A8;
+}
+
 /* Cirlce button - http://bootsnipp.com/snippets/featured/circle-button */
 .btn-circle {
     width: 30px;
@@ -85,4 +94,18 @@ hr {
     font-size: 24px;
     line-height: 1.33;
     border-radius: 70px;
+}
+
+.popover {
+    background-color: #D97804;
+    border-radius: 0;
+}
+
+.popover-content {
+    background-color: #D97804;
+    color: #fff;
+}
+
+.popover.left > .arrow::after {
+    border-left-color: #D97804;
 }

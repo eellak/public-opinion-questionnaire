@@ -19,17 +19,17 @@
 
 {% set i = 0 %}
 {% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
-    <div class="row text-center">
+    <div class="row text-center poq-result-row">
         <div class="col-md-offset-4 col-md-4 text-center">
             {% set label = values|keys|first %}
             {% set value = (values|first).percentage %}
             <b>{{value}}%</b> {{(dimension~'.'~label~'.name')|trans}}
         </div>
         <div class="col-md-1 text-center">
-            ΝΑΙ
+            <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) == label %}class="selected"{% endif %} data-dimension="{{dimension}}" data-value="yes" data-label="{{label}}">ΝΑΙ</a>
         </div>
         <div class="col-md-1 text-center">
-            ΟΧΙ
+            <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) != label %}class="selected"{% endif %} data-toggle="popover" data-dimension="{{dimension}}" data-value="no">ΟΧΙ</a>
         </div>
     </div>
     {% if i < (values|length) %}<hr style="border: 1px solid #F5F5F5; margin-top: 2px; margin-bottom: 2px;" />{% endif %}
@@ -55,4 +55,58 @@
         <p>&nbsp;</p>
     </div>
 </div>
+
+{% for dimension,dimensionForm in userDimensionForms %}
+<div class="poq-change-answer-content hidden" data-dimension="{{dimension}}">
+    <p>επιλέξτε τη σωστή απάντηση</p>
+    <form action="{{path('final_results_change', {'dimension': dimension})}}" method="POST" data-dimension="{{dimension}}">
+        {% for dimensionValue in dimensionForm[dimension] %}
+            <div><label>{{form_widget(dimensionValue)}} {{(dimension~'.'~dimensionValue.vars.label~'.name')|trans}}</label></div>
+        {% endfor %}
+    </form>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script>
+    $(document).ready(function() {
+        var ajaxSubmit = function($form) {
+            $.ajax({
+                type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                url         : $form.attr('action'), // the url where we want to POST
+                data        : $form.serialize(), // our data object
+                dataType    : 'json', // what type of data do we expect back from the server
+                encode      : true
+            });
+        };
+        $('.poq-result-row [data-toggle="popover"]').each(function() {
+            $(this).popover({
+                'container': 'body',
+                'html': true,
+                'placement': 'left',
+                'trigger': 'focus',
+                'content': $('.poq-change-answer-content[data-dimension="'+$(this).attr('data-dimension')+'"]').html(),
+            });
+            var $this = $(this);
+            $(this).on('shown.bs.popover', function () {
+                $('.popover-content form :radio').change(function() {
+                    ajaxSubmit($('.popover-content form'));
+                    // Change to no
+                    $this.parent().parent().find('a[data-value="yes"]').removeClass('selected');
+                    $this.parent().parent().find('a[data-value="no"]').addClass('selected');
+                });
+            });
+        });
+        $('a[data-value="yes"]').on('click', function() {
+            var $form = $('form[data-dimension="'+$(this).attr('data-dimension')+'"]');
+            $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',true);
+            ajaxSubmit($form);
+            $(this).parent().parent().find('a[data-value="yes"]').addClass('selected');
+            $(this).parent().parent().find('a[data-value="no"]').removeClass('selected');
+            $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',false);
+        });
+    });
+</script>
 {% endblock %}
