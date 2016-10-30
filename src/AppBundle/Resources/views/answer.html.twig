@@ -5,23 +5,24 @@
 {% block content_main %}
 <div class="row">
     {{block('content_question_main')}}
-    <div class="col-md-5">
-        <h4 style="margin-top: 0; margin-bottom: 0;">Πως απάντησαν οι Έλληνες</h4>
+    <div class="col-md-7">
+        <h4 style="margin-top: 0; margin-bottom: 0;">Πώς απάντησαν οι Έλληνες</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
                 <div class="ellak-poq-answer-container" style="max-height: {{(question.answers|length)*33}}px;"></div>
             </div>
-            <div class="col-md-8">
-                <b>Η απάντηση σας είχε υψηλότερη ταύτηση με:</b>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-7">
+                <b>Απάντησαν σαν εσάς κυρίως:</b>
                 <ul>
-                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}} <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}%</b></li>
-                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}} <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}%</b></li>
+                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].label|trans}}, <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 2].value}}%</b></li>
+                    <li>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].label|trans}}, <b>{{answerStatsProcessed[(answerStatsProcessed|length) - 1].value}}%</b></li>
                 </ul>
-                <b>Και χαμηλότερη ταύτηση με:</b>
+                <b>Απάντησαν διαφορετικά κυρίως:</b>
                 <ul>
-                    <li>{{answerStatsProcessed[0].label|trans}} <b>{{answerStatsProcessed[0].value}}%</b></li>
-                    <li>{{answerStatsProcessed[1].label|trans}} <b>{{answerStatsProcessed[1].value}}%</b></li>
+                    <li>{{answerStatsProcessed[0].label|trans}}, <b>{{answerStatsProcessed[0].value}}%</b></li>
+                    <li>{{answerStatsProcessed[1].label|trans}}, <b>{{answerStatsProcessed[1].value}}%</b></li>
                 </ul>
             </div>
         </div>
@@ -29,7 +30,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-offset-2 col-md-8 text-right">
+    <div class="col-md-offset-1 col-md-10 text-right">
         <p>&nbsp;</p>
         <div class="pull-left">{{block('previous_question')}}</div>
         {% if (page+1) > section.questions|length %}

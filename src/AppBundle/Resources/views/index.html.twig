@@ -4,18 +4,19 @@
 <div class="row text-center">
     <div class="col-md-offset-2 col-md-8">
         <p>&nbsp;</p>
-        <h1>Καλώς ορίσατε</h1>
-        <p>&nbsp;</p>
-        <p class="text-justify">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+        <p class="text-justify">Τι έχει κερδίσει η Ελλάδα από την Ευρωπαϊκή Ένωση; Ποιοι ευθύνονται για την ελληνική κρίση; Χρειαζόμαστε μεγαλύτερο ή μικρότερο κράτος;  Ποιες είναι οι μεγαλύτερες απειλές για την ελληνική δημοκρατία; Ποια είναι η άποψη σας για τη μετανάστευση, την υπηκοότητα και τα δικαιώματα των ομοφυλόφιλων; Βρίσκεται η χώρα μας σήμερα σε παρακμή;
+        <p class="text-justify">Το 2015 η διαΝΕΟσις ξεκίνησε μια σειρά από έρευνες κοινής γνώμης, με στόχο να αποτυπώσει τις αξίες και τις πεποιθήσεις των Ελλήνων πολιτών. Τα αποτελέσματα του «Τι Πιστεύουν Οι Έλληνες», που θα επαναλαμβάνεται κάθε χρόνο, μπορείτε να τα διαβάζετε εδώ.</p>
+        <p class="text-justify">Σε αυτό το ερωτηματολόγιο μπορείτε, απαντώντας μερικές από τις ερωτήσεις της έρευνας, να διαπιστώσετε πόσο κοντά βρίσκονται οι απόψεις σας με των υπόλοιπων Ελλήνων. Στο τέλος, ανάλογα με το πώς έχετε απαντήσει, θα προσπαθήσουμε να μαντέψουμε σε ποια κατηγορία (ηλικιακή, πληθυσμιακή κ.α.) ανήκετε.</p>
+</p>
 
         <p>&nbsp;</p>
-        <p class="text-justify"><small>* η συμμετοχή στο ερωτηματολόγιο είναι ανώνυμη - η υπηρεσία δεν αποθηκεύει κανένα προσωπικό στοιχείο</small></p>
+        <p class="text-justify"><small>* Σημείωση: <b>Η συμμετοχή στο ερωτηματολόγιο είναι ανώνυμη.</b> Η εφαρμογή δεν αποθηκεύει κανένα προσωπικό στοιχείο. Στην περίπτωση που αφήσετε το email σας για να ολοκληρώσετε το ερωτηματολόγιο αργότερα, αυτό αποθηκεύεται προσωρινά, χωρίς να συσχετίζεται με τις απαντήσεις σας.</small></p>
     </div>
 </div>
 <div class="row text-center">
     <div class="col-md-offset-1 col-md-10">
         <hr style="margin-top: 30px; margin-bottom: 30px;" />
-        <p><a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-poq-warning btn-circle btn-xxl">Έναρξη</a></p>
+        <p><a href="{{path('question', {'section': sections[0].id, 'page': 1})}}" class="btn btn-poq-warning btn-circle btn-xxl">Έναρξη!</a></p>
         <p><small>Αν είστε νέος χρήστης</small></p>
     </div>
 </div>
@@ -24,7 +25,7 @@
 {% block footer %}
 <div class="row">
     <div class="col-md-2 pull-left">
-        <img src="{{asset('img/logo.png')}}" alt="Logo" />
+        {#<img src="{{asset('img/logo.png')}}" alt="Logo" />#}
     </div>
     <div class="col-md-2 pull-right">
         <p><a id="poq-resume" class="btn btn-poq-default">Συνέχεια</a></p>
@@ -38,7 +39,7 @@
                 </div>
             </form>
         </div>
-        <p><small>Αν έχετε αποθηκεύσει το ερωτηματολόγιο συνεχίστε εδώ</small></p>
+        <p><small>Αν έχετε αποθηκεύσει το ερωτηματολόγιο, πατήστε εδώ</small></p>
     </div>
 </div>
 {% endblock %}

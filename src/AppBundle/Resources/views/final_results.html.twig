@@ -3,27 +3,26 @@
 {% block content %}
 <div class="row text-center">
     <div class="col-md-12">
-        <h1>Ολοκληρώσατε το Ερωτηματολόγιο, ευχαριστούμε.</h1>
+        <h1>Ποιοί απάντησαν όπως εσείς;</h1>
         <hr />
     </div>
 </div>
 
 <div class="row text-center">
     <div class="col-md-offset-4 col-md-4 text-center">
-        <p><b>Οι απαντήσεις που δώσατε ταιριάζουν περισσότερο<BR />με αυτές των εξής πληθυσμιακών ομάδων:</b></p>
+        <p><b>Οι απαντήσεις σας μοιάζουν περισσότερο<BR />με αυτές των εξής πληθυσμιακών ομάδων:</b></p>
     </div>
     <div class="col-md-2 text-center">
-        <p><b>Είναι σωστά τα αποτελέσματα που έδωσε η εφαρμογή;</b></p>
+        <p><b>Τα πετύχαμε;</b></p>
     </div>
 </div>
 
-{% set i = 0 %}
 {% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
     <div class="row text-center poq-result-row">
         <div class="col-md-offset-4 col-md-4 text-center">
             {% set label = values|keys|first %}
             {% set value = (values|first).percentage %}
-            <b>{{value}}%</b> {{(dimension~'.'~label~'.name')|trans}}
+            {{(dimension~'.'~label~'.name')|trans}}
         </div>
         <div class="col-md-1 text-center">
             <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) == label %}class="selected"{% endif %} data-dimension="{{dimension}}" data-value="yes" data-label="{{label}}">ΝΑΙ</a>
@@ -32,8 +31,6 @@
             <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) != label %}class="selected"{% endif %} data-toggle="popover" data-dimension="{{dimension}}" data-value="no">ΟΧΙ</a>
         </div>
     </div>
-    {% if i < (values|length) %}<hr style="border: 1px solid #F5F5F5; margin-top: 2px; margin-bottom: 2px;" />{% endif %}
-    {% set i = i + 1 %}
 {% endfor %}
 
 <div class="row">
