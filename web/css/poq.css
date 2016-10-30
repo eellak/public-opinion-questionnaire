@@ -1,7 +1,7 @@
 /* General theme */
 html,
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
 }
 
@@ -10,6 +10,14 @@ hr {
     border: solid 1px #0099A8;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+a.lead:hover {
+    text-decoration: none;
 }
 
 .poq-header {

@@ -19,7 +19,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var percent = Math.round({{page-1}}/{{section.questions|length}} * 100) / 100;
-        $('#poq-question-progress-bar > div').css('margin-left', (percent*100)+'%');
+        $('#poq-question-progress-bar > div').css('width', (percent*100)+'%');
     });
 </script>
 {% endblock %}

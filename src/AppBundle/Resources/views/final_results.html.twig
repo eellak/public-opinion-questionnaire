@@ -21,14 +21,20 @@
     <div class="row text-center poq-result-row">
         <div class="col-md-offset-4 col-md-4 text-center">
             {% set label = values|keys|first %}
+            {% set noLabel = values|keys|last %}
             {% set value = (values|first).percentage %}
             {{(dimension~'.'~label~'.name')|trans}}
         </div>
-        <div class="col-md-1 text-center">
-            <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) == label %}class="selected"{% endif %} data-dimension="{{dimension}}" data-value="yes" data-label="{{label}}">ΝΑΙ</a>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) != label %}class="selected"{% endif %} data-toggle="popover" data-dimension="{{dimension}}" data-value="no">ΟΧΙ</a>
+        <div class="col-md-2 text-center">
+            <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) == label %}class="selected"{% endif %} data-dimension="{{dimension}}" data-value="yes" data-label="{{label}}" data-instantsubmit="yes">ΝΑΙ</a>
+            &nbsp;&nbsp;&nbsp;
+            {% if userDimensionForms[dimension][dimension]|length <= 2 %}
+                {# Dual choice (e.g. male female) #}
+                <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) != label %}class="selected"{% endif %} data-dimension="{{dimension}}" data-value="no" data-label="{{noLabel}}" data-instantsubmit="yes">ΟΧΙ</a>
+            {% else %}
+                {# Multiple choices #}
+                <a href="#" {% if attribute(user, 'get'~(dimension|capitalize)) != label %}class="selected"{% endif %} data-toggle="popover" data-dimension="{{dimension}}" data-value="no" data-instantsubmit="no">ΟΧΙ</a>
+            {% endif %}
         </div>
     </div>
 {% endfor %}
@@ -58,7 +64,7 @@
     <p>επιλέξτε τη σωστή απάντηση</p>
     <form action="{{path('final_results_change', {'dimension': dimension})}}" method="POST" data-dimension="{{dimension}}">
         {% for dimensionValue in dimensionForm[dimension] %}
-            <div><label>{{form_widget(dimensionValue)}} {{(dimension~'.'~dimensionValue.vars.label~'.name')|trans}}</label></div>
+            <div {% if dimensionValue.vars.value == (answerStats[dimension]|keys|first) or dimensionValue.vars.value == 'UNKNOWN' %}class="hidden"{% endif %}><label>{{form_widget(dimensionValue)}} {{(dimension~'.'~dimensionValue.vars.label~'.name')|trans}}</label></div>
         {% endfor %}
     </form>
 </div>
@@ -84,7 +90,7 @@
                 'html': true,
                 'placement': 'left',
                 'trigger': 'focus',
-                'content': $('.poq-change-answer-content[data-dimension="'+$(this).attr('data-dimension')+'"]').html(),
+                'content': $('.poq-change-answer-content[data-dimension="'+$(this).attr('data-dimension')+'"]').html()
             });
             var $this = $(this);
             $(this).on('shown.bs.popover', function () {
@@ -93,15 +99,29 @@
                     // Change to no
                     $this.parent().parent().find('a[data-value="yes"]').removeClass('selected');
                     $this.parent().parent().find('a[data-value="no"]').addClass('selected');
+                    // Update the actual form the popover is based on so next time it opens the correct choice is selected
+                    var $formContainer = $('.poq-change-answer-content[data-dimension="'+$(this).parent().parent().parent().attr('data-dimension')+'"]');
+                    var $form = $formContainer.find('form');
+                    $form.find(':radio').removeAttr('checked',false);
+                    $form.find('[value="'+$(this).val()+'"]').attr('checked',true);
+                    $this.data('bs.popover').options.content = $formContainer.html(); // Refresh the popover content
                 });
             });
         });
-        $('a[data-value="yes"]').on('click', function() {
+        $('a[data-instantsubmit="yes"][data-value="yes"]').on('click', function() {
             var $form = $('form[data-dimension="'+$(this).attr('data-dimension')+'"]');
             $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',true);
             ajaxSubmit($form);
             $(this).parent().parent().find('a[data-value="yes"]').addClass('selected');
             $(this).parent().parent().find('a[data-value="no"]').removeClass('selected');
+            $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',false);
+        });
+        $('a[data-instantsubmit="yes"][data-value="no"]').on('click', function() {
+            var $form = $('form[data-dimension="'+$(this).attr('data-dimension')+'"]');
+            $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',true);
+            ajaxSubmit($form);
+            $(this).parent().parent().find('a[data-value="no"]').addClass('selected');
+            $(this).parent().parent().find('a[data-value="yes"]').removeClass('selected');
             $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',false);
         });
     });

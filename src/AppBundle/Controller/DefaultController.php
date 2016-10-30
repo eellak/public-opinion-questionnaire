@@ -138,7 +138,7 @@ class DefaultController extends Controller
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         $userDimensionForms = array();
         foreach(User::getDimensionsExpanded() as $curDimension => $curValues) {
-            $userDimensionForms[$curDimension] = $this->createForm(new UserType($curDimension, $curValues), new User())->createView();
+            $userDimensionForms[$curDimension] = $this->createForm(new UserType($curDimension, $curValues), $user)->createView();
         }
         // Process answer stats
         $answerStats = $this->container->get('app.section.manager')->getSectionStats(null, $user);
