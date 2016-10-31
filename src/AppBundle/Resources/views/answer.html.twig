@@ -10,7 +10,7 @@
         <hr />
         <div class="row">
             <div class="col-md-4">
-                <div class="ellak-poq-answer-container" style="max-height: {{(question.answers|length)*33}}px;"></div>
+                <div class="ellak-poq-answer-container"></div>
             </div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-7">
@@ -49,10 +49,11 @@
 <script src="//code.highcharts.com/highcharts.js"></script>
 <script>
 jQuery(function () {
-    jQuery('.ellak-poq-answer-container').height(50+{{question.answers|length}}*50);
+    jQuery('.ellak-poq-answer-container').height($('#question-form').height());
     jQuery('.ellak-poq-answer-container').highcharts({
         chart: {
-            type: 'bar'
+            type: 'bar',
+            margin: 0
         },
         title: {
             text: '',

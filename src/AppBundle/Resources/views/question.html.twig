@@ -6,9 +6,9 @@
 <div class="row">
     {% block content_question_main %}
     <div class="col-md-offset-1 col-md-3">
-        <form name="form1" method="post" action="{{path('question', {'section': section.id, 'page': page})}}" style="margin: 0;">
-            <h4>&nbsp;</h4>
-            <br />
+        <h4 style="margin-top: 0; margin-bottom: 0;">&nbsp;</h4>
+        <hr style="border: 1px solid #ffffff;"/>
+        <form id="question-form" name="form1" method="post" action="{{path('question', {'section': section.id, 'page': page})}}" style="margin: 0;">
             {% for answer in question.answers %}
                 <div><label style="max-width: 95%;" for="answer-{{answer.id}}"><input type="radio" id="answer-{{answer.id}}" name="answer" value="{{answer.id}}" style="vertical-align: top;" required{% if answer.id == selectedAnswerId %} checked="checked"{% endif %}> {{answer.answer}}</label></div>
             {% endfor %}
