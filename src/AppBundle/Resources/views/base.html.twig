@@ -1,3 +1,4 @@
+{% set base_dir = base_dir is defined ? base_dir : '' %}
 <html>
     <head>
         <!-- Latest compiled and minified CSS -->
@@ -8,7 +9,11 @@
 
         <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700&amp;subset=greek" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{asset('css/poq.css')}}">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{base_dir~asset('css/poq.css')}}">
+        {% endblock %}
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <title>Public Opinion Questionnaire</title>
     </head>

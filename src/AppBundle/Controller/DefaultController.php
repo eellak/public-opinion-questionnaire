@@ -230,6 +230,36 @@ class DefaultController extends Controller
         }
     }
 
+    /**
+     * @Route("/share/{sessionId}.jpg", name="share")
+     */
+    public function shareAction($sessionId) {
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $sessionId));
+        if(!$user) { echo 'User not found to share'; die(); }
+
+        $userDimensionForms = array();
+        foreach(User::getDimensionsExpanded() as $curDimension => $curValues) {
+            $userDimensionForms[$curDimension] = $this->createForm(new UserType($curDimension, $curValues), $user)->createView();
+        }
+        // Process answer stats
+        $answerStats = $this->container->get('app.section.manager')->getSectionStats(null, $user);
+
+        $html = $this->renderView('AppBundle::share.html.twig', array(
+            'user'  => $user,
+            'base_dir' => $this->getRequest()->getSchemeAndHttpHost(),
+            'answerStats' => $answerStats,
+        ));
+
+        return new Response(
+            $this->get('knp_snappy.image')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'image/jpg',
+                'Content-Disposition'   => 'filename="poq.jpg"'
+            )
+        );
+    }
+
     private function getQuestion(Section $section, $page) {
         if($page < 1) { $page = 1; }
         $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q WHERE q.section = :section')->setParameter('section', $section)->setMaxResults(1)->setFirstResult($page-1)->getResult();

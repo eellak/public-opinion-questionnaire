@@ -40,6 +40,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "sensio/generator-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
+        "knplabs/knp-snappy-bundle": "dev-master",
         "tiamo/spss": "dev-master"
     },
     "require-dev": {

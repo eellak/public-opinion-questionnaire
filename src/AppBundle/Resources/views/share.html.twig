@@ -1,0 +1,44 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{base_dir~asset('css/poq_share.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-md-12">
+        <h1>Οι απαντήσεις που δώσατε ταιριάζουν περισσότερο<BR />με αυτές των εξής πληθυσμιακών ομάδων:</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+{% for dimension,values in answerStats if dimension in ['gender', 'age', 'profession', 'educationLevel', 'income', 'region'] %}
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 text-center">
+            {% set label = values|keys|first %}
+            {% set noLabel = values|keys|last %}
+            {% set value = (values|first).percentage %}
+            <h3 style="margin-top: 5px;">{{(dimension~'.'~label~'.name')|trans}}</h3>
+            {% if dimension != 'region' %}<hr />{% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+<div class="row">
+    <div class="col-md-12">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+<img src="{{base_dir~asset('img/share_footer.png')}}" alt="Share Footer" />
+
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

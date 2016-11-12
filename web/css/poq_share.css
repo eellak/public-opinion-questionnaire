@@ -1,0 +1,16 @@
+body {
+    color: #fff;
+    background-color: #0099A8;
+}
+
+.poq-header {
+    background-color: #00B9C2;
+    border-bottom: 1px solid #fff;
+}
+
+hr {
+    color: #fff;
+    border: solid 1px #fff;
+    margin-top: 0;
+    margin-bottom: 0;
+}
