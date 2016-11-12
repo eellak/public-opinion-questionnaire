@@ -48,7 +48,7 @@
 <div class="row text-center">
     <div class="col-md-offset-4 col-md-4 text-center">
         <h3>Μοιράσου τα:</h3>
-        <p><a href="{{path('share', {'sessionId': user.sessionId})}}" target="_blank">Facebook</a> | <a href="{{path('share', {'sessionId': user.sessionId})}}" target="_blank">Twitter</a> | <a href="{{path('share', {'sessionId': user.sessionId})}}" target="_blank">Link</a></p>
+        <p><a href="https://www.facebook.com/sharer/sharer.php?u={{url('share', {'sessionId': user.sessionId})|url_encode()}}" target="_blank">Facebook</a> | <a href="https://twitter.com/home?status={{url('share', {'sessionId': user.sessionId})|url_encode()}}" target="_blank">Twitter</a> | <a href="{{url('share', {'sessionId': user.sessionId})}}" target="_blank">Link</a></p>
     </div>
 </div>
 
