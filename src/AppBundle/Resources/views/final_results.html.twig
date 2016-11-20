@@ -48,7 +48,7 @@
 <div class="row text-center">
     <div class="col-md-offset-4 col-md-4 text-center">
         <h3>Μοιράσου τα:</h3>
-        <p><a href="https://www.facebook.com/sharer/sharer.php?u={{url('share', {'sessionId': user.sessionId})|url_encode()}}" target="_blank">Facebook</a> | <a href="https://twitter.com/home?status={{url('share', {'sessionId': user.sessionId})|url_encode()}}" target="_blank">Twitter</a> | <a href="{{url('share', {'sessionId': user.sessionId})}}" target="_blank">Link</a></p>
+        <p><div id="shareIcons"></div></p>
     </div>
 </div>
 
@@ -84,8 +84,16 @@
 {% endfor %}
 {% endblock %}
 
+{% block stylesheets %}
+{{parent()}}
+<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-classic.css" />
+{% endblock %}
+
 {% block javascripts %}
 {{parent()}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
 <script>
     $(document).ready(function() {
         var ajaxSubmit = function($form) {
@@ -136,6 +144,16 @@
             $(this).parent().parent().find('a[data-value="no"]').addClass('selected');
             $(this).parent().parent().find('a[data-value="yes"]').removeClass('selected');
             $form.find('[value="'+$(this).attr('data-label')+'"]').prop('checked',false);
+        });
+
+
+        // Share buttons
+        $("#shareIcons").jsSocials({
+            url: "{{url('share', {'sessionId': user.sessionId})}}",
+            text: "Τι Πιστεύουν οι Έλληνες - Το Online Ερωτηματολόγιο",
+            showLabel: false,
+            showCount: false,
+            shares: ["facebook", "twitter", "googleplus", "linkedin"]
         });
     });
 </script>
