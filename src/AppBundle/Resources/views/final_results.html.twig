@@ -47,7 +47,7 @@
 
 <div class="row text-center">
     <div class="col-md-offset-4 col-md-4 text-center">
-        <h3>Μοιράσου τα:</h3>
+        <h3>Μοιράσου το Ερωτηματολόγιο:</h3>
         <p><div id="shareIcons"></div></p>
     </div>
 </div>
@@ -61,6 +61,12 @@
 <div class="row text-center">
     <div class="col-md-offset-4 col-md-4 text-center">
         <h3><b><a target="_blank" href="http://www.dianeosis.org/research/greek_values/" style="color: #0099A8;">Δείτε τα αποτελέσματα της Έρευνας</a></b></h3>
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-offset-4 col-md-4 text-center">
+        <h4><b><a target="_blank" href="{{path('home')}}">Επιστροφή στην αρχή</a></b></h4>
     </div>
 </div>
 
@@ -149,7 +155,8 @@
 
         // Share buttons
         $("#shareIcons").jsSocials({
-            url: "{{url('share', {'sessionId': user.sessionId})}}",
+            {#url: "{{url('share', {'sessionId': user.sessionId})}}",#}
+            url: "http://www.dianeosis.org/2016/12/what-greeks-believe-questionaire/",
             text: "Τι Πιστεύουν οι Έλληνες - Το Online Ερωτηματολόγιο",
             showLabel: false,
             showCount: false,
