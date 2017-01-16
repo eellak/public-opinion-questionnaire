@@ -40,7 +40,7 @@ class BackendController extends Controller
      */
     public function exportAction(Request $request)
     {
-        if($this->getRequest()->get('token') != 'TQCX8aUwrebD87EZ') {
+        if($this->getRequest()->get('token') != $this->container->getParameter('export_token')) {
             echo 'Wrong token'; die();
         }
         $data = array();
