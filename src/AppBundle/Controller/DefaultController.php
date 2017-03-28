@@ -74,7 +74,7 @@ class DefaultController extends Controller
         $question = $this->getQuestion($section, $page);
         $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle\Entity\User')->findOneBy(array('sessionId' => $request->getSession()->getId()));
         $answer = $this->container->get('doctrine')->getManager()->createQuery('SELECT ua FROM AppBundle\Entity\UserAnswer ua JOIN ua.answer a WHERE a.question = :question and ua.user = :user')->setParameter('user', $user)->setParameter('question', $question)->getResult();
-        if(count($answer) <= 0) { throw new \Exception('Answer not found!'); }
+        if(count($answer) <= 0) { echo 'Invalid answer found! Please clear your cookies and try restarting the questionnaire.'; die(); }
         $answer = reset($answer);
         $answer = $answer->getAnswer();
         // Process answer stats
