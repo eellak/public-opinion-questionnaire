@@ -262,7 +262,7 @@ class DefaultController extends Controller
 
     private function getQuestion(Section $section, $page) {
         if($page < 1) { $page = 1; }
-        $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q WHERE q.section = :section')->setParameter('section', $section)->setMaxResults(1)->setFirstResult($page-1)->getResult();
+        $question = $this->container->get('doctrine')->getManager()->createQuery('SELECT q FROM AppBundle\Entity\Question q WHERE q.section = :section ORDER BY q.questionId ASC')->setParameter('section', $section)->setMaxResults(1)->setFirstResult($page-1)->getResult();
         $question = reset($question);
         return $question;
     }
