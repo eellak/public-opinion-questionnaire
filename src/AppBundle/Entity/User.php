@@ -108,8 +108,8 @@ class User
     private $region;
     const REGION_ATTICA = 'ATTICA';
     const REGION_THESSALONIKI = 'THESSALONIKI';
+    const REGION_NORTH_GREECE = 'NORTH_GREECE';
     const REGION_CENTRAL_GREECE = 'CENTRAL_GREECE';
-    const REGION_NORTH_AEGEAN = 'NORTH_AEGEAN';
     const REGION_CRETE = 'CRETE';
     /**
      * @ORM\Column(type="string", nullable=true)

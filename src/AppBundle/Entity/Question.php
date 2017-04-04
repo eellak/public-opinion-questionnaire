@@ -23,7 +23,7 @@ class Question
     private $id;
 
     /**
-     * @ORM\Column(name="question_id", type="string", length=10, nullable=false, unique=true)
+     * @ORM\Column(name="question_id", type="integer, nullable=false, unique=true)
      */
     private $questionId;
 

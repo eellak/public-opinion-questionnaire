@@ -24,10 +24,12 @@
                         <td>{{var.getPrintFormat|join(',')}} (#{{var.typeCode}})</td>
                         <td>{{var.width}}</td>
                         <td>{{var.decimals}}</td>
-                        <td>{{var.label|convert_encoding('UTF-8', 'iso-8859-7')}}</td>
+                        {#<td>{{var.label|convert_encoding('UTF-8', 'iso-8859-7')}}</td>#}
+                        <td>{{var.label}}</td>
                         <td>
                             {% for lkey,lval in var.valueLabels %}
-                                {{lkey|convert_encoding('UTF-8', 'iso-8859-7')}}) {{lval|convert_encoding('UTF-8', 'iso-8859-7')}} <br/>
+                                {#{{lkey|convert_encoding('UTF-8', 'iso-8859-7')}}) {{lval|convert_encoding('UTF-8', 'iso-8859-7')}} <br/>#}
+                                {{lkey}}) {{lval}} <br/>
                             {% endfor %}
                         </td>
                         <td>{{var.missingLabel}}</td>
